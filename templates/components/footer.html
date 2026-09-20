@@ -1,0 +1,77 @@
+<footer class="fc-footer">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+
+            <div class="col-lg-5">
+                <a
+                    href="{% url 'pages:home' %}"
+                    class="fc-brand footer-brand"
+                    aria-label="FAST CARS home"
+                >
+                    <span class="fc-brand-icon">
+                        <i class="bi bi-car-front-fill"></i>
+                    </span>
+                    FAST<span>CARS</span>
+                </a>
+
+                <p class="fc-footer-description">
+                    Simple, reliable car rental for every journey. Choose your
+                    car, request your booking, and hit the road.
+                </p>
+            </div>
+
+            <div class="col-6 col-lg-2">
+                <h6 class="fc-footer-title">Explore</h6>
+                <ul class="fc-footer-links">
+                    <li><a href="#">Cars</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-lg-2">
+                <h6 class="fc-footer-title">Account</h6>
+                <ul class="fc-footer-links">
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Register</a></li>
+                    <li><a href="#">My Bookings</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <h6 class="fc-footer-title">Contact</h6>
+                <ul class="fc-footer-contact">
+                    <li>
+                        <i class="bi bi-envelope"></i>
+                        <span>info@fastcars.com</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-telephone"></i>
+                        <span>+234 800 000 0000</span>
+                    </li>
+                    <li>
+                        <i class="bi bi-geo-alt"></i>
+                        <span>Nigeria</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="fc-footer-bottom">
+            <span>© {% now "Y" %} FAST CARS. All rights reserved.</span>
+
+            <div class="fc-footer-socials">
+                <a href="#" aria-label="Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" aria-label="X">
+                    <i class="bi bi-twitter-x"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
