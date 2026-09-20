@@ -1,0 +1,116 @@
+<nav class="navbar navbar-expand-lg fc-navbar">
+
+    <div class="container">
+
+        <a 
+            class="navbar-brand fc-brand"
+            href="{% url 'pages:home' %}"
+            aria-label="FAST CARS home"
+        >
+            <span class="fc-brand-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </span>
+
+            FAST<span>CARS</span>
+        </a>
+
+
+        <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+
+            <button
+                class="btn fc-theme-toggle"
+                type="button"
+                data-theme-toggle
+                aria-label="Toggle dark mode"
+            >
+                <i class="bi bi-moon-stars" data-theme-icon></i>
+            </button>
+
+
+            <button
+                class="navbar-toggler fc-navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavigation"
+                aria-controls="mainNavigation"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <i class="bi bi-list"></i>
+            </button>
+
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="mainNavigation">
+
+            <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'pages:home' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Cars
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        About
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="d-none d-lg-flex align-items-center gap-2">
+
+                <button
+                    class="btn fc-theme-toggle"
+                    type="button"
+                    data-theme-toggle
+                    aria-label="Toggle dark mode"
+                >
+                    <i class="bi bi-moon-stars" data-theme-icon></i>
+                </button>
+
+
+                <a href="#" class="btn fc-btn fc-btn-outline">
+                    Login
+                </a>
+
+
+                <a href="#" class="btn fc-btn fc-btn-primary">
+                    Browse Cars
+                </a>
+
+            </div>
+
+
+            <div class="d-flex d-lg-none flex-column gap-2 pb-3">
+
+                <a href="#" class="btn fc-btn fc-btn-outline">
+                    Login
+                </a>
+
+                <a href="#" class="btn fc-btn fc-btn-primary">
+                    Browse Cars
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
