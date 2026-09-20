@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "bookings",
     "testimonials",
     "enquiries",
+    "pages",
 
 
     'django.contrib.admin',
@@ -125,6 +126,9 @@ USE_TZ = True
 
 STATIC_ROOT = Path(BASE_DIR, "staticfiles")
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 MEDIA_ROOT = Path(BASE_DIR, "media")
 MEDIA_URL = "/media/"
