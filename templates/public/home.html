@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}FAST CARS — Car Rental Made Simple{% endblock %}
+
+{% block meta_description %}
+Reliable car rental made simple. Browse vehicles, choose your dates, and submit your booking request with FAST CARS.
+{% endblock %}
+
+{% block content %}
+
+<section class="fc-hero">
+    <div class="container">
+        <div class="row align-items-center g-4 g-lg-5">
+            <div class="col-lg-6">
+                <span class="fc-eyebrow">Car rental made simple</span>
+
+                <h1 class="fc-hero-title">
+                    The right car for where you're going.
+                </h1>
+
+                <p class="fc-hero-text">
+                    Browse reliable vehicles, choose your rental dates,
+                    and submit your booking request in a few simple steps.
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#cars" class="btn fc-btn fc-btn-primary px-4">
+                        Browse Cars
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+
+                    <a href="#how-it-works" class="btn fc-btn fc-btn-outline px-4">
+                        How It Works
+                    </a>
+                </div>
+
+                <div class="fc-hero-note">
+                    <i class="bi bi-shield-check"></i>
+                    Clear booking status from request to confirmation
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="fc-hero-media">
+                    <img
+                        src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1400&q=85"
+                        alt="Luxury sports car"
+                    >
+
+                    <div class="fc-hero-media-overlay"></div>
+
+                    <div class="fc-hero-media-content">
+                        <span class="fc-image-label">
+                            FAST CARS
+                        </span>
+
+                        <div>
+                            <h2>Move with confidence.</h2>
+                            <p>Comfortable rides. Straightforward booking.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="fc-trust-strip">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="fc-trust-item">
+                    <div class="fc-icon-box">
+                        <i class="bi bi-car-front-fill"></i>
+                    </div>
+                    <div>
+                        <h3>Quality vehicles</h3>
+                        <p>Choose from a carefully managed fleet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="fc-trust-item">
+                    <div class="fc-icon-box">
+                        <i class="bi bi-calendar2-check-fill"></i>
+                    </div>
+                    <div>
+                        <h3>Simple booking</h3>
+                        <p>Choose your vehicle and rental dates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="fc-trust-item">
+                    <div class="fc-icon-box">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div>
+                        <h3>Clear status</h3>
+                        <p>Know when your request is confirmed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="cars" class="fc-section fc-fleet-section">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+                <span class="fc-eyebrow">Our fleet</span>
+                <h2>Find the right ride.</h2>
+                <p class="fc-section-intro mb-0">
+                    From everyday travel to executive journeys, explore the vehicles available through FAST CARS.
+                </p>
+            </div>
+
+            <a href="#" class="fc-text-link">
+                View all cars
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-xl-4">
+                <article class="fc-vehicle-preview">
+                    <div class="fc-vehicle-image">
+                        <img
+                            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=85"
+                            alt="Premium vehicle"
+                        >
+                    </div>
+                    <div class="fc-vehicle-preview-body">
+                        <span class="fc-vehicle-type">Executive</span>
+                        <h3>Premium Drive</h3>
+                        <p>Comfort-focused vehicle for business and leisure travel.</p>
+                        <a href="#" class="fc-text-link">
+                            View vehicle
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <article class="fc-vehicle-preview">
+                    <div class="fc-vehicle-image">
+                        <img
+                            src="https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1000"
+                            alt="Modern car"
+                        >
+                    </div>
+                    <div class="fc-vehicle-preview-body">
+                        <span class="fc-vehicle-type">Sedan</span>
+                        <h3>Everyday Comfort</h3>
+                        <p>A practical choice for city trips and longer journeys.</p>
+                        <a href="#" class="fc-text-link">
+                            View vehicle
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <article class="fc-vehicle-preview">
+                    <div class="fc-vehicle-image">
+                        <img
+                            src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=85"
+                            alt="Luxury vehicle"
+                        >
+                    </div>
+                    <div class="fc-vehicle-preview-body">
+                        <span class="fc-vehicle-type">SUV</span>
+                        <h3>Room to Go</h3>
+                        <p>More space and flexibility for passengers and luggage.</p>
+                        <a href="#" class="fc-text-link">
+                            View vehicle
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="why-us" class="fc-section fc-dark-section">
+    <div class="container">
+        <div class="row align-items-end g-4 mb-5">
+            <div class="col-lg-7">
+                <span class="fc-eyebrow">Why FAST CARS</span>
+                <h2>Built around a simpler rental experience.</h2>
+            </div>
+
+            <div class="col-lg-5">
+                <p class="mb-0">
+                    Every part of the experience is designed to keep things
+                    clear, practical, and easy to follow.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="fc-feature">
+                    <span class="fc-feature-number">01</span>
+                    <i class="bi bi-search"></i>
+                    <h3>Choose with confidence</h3>
+                    <p>
+                        Browse vehicle details before deciding what suits your journey.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="fc-feature">
+                    <span class="fc-feature-number">02</span>
+                    <i class="bi bi-calendar2-week"></i>
+                    <h3>Request your dates</h3>
+                    <p>
+                        Select the period you need and send a straightforward booking request.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="fc-feature">
+                    <span class="fc-feature-number">03</span>
+                    <i class="bi bi-check2-circle"></i>
+                    <h3>Track your booking</h3>
+                    <p>
+                        Follow your request from pending through confirmation and completion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="how-it-works" class="fc-section">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-7">
+                <span class="fc-eyebrow">How it works</span>
+                <h2>A rental process without unnecessary steps.</h2>
+            </div>
+        </div>
+
+        <div class="fc-process">
+            <div class="fc-process-item">
+                <span>01</span>
+                <div>
+                    <h3>Browse</h3>
+                    <p>Explore the available vehicles and find one that fits your trip.</p>
+                </div>
+            </div>
+
+            <div class="fc-process-item">
+                <span>02</span>
+                <div>
+                    <h3>Request</h3>
+                    <p>Select your dates and submit your booking details.</p>
+                </div>
+            </div>
+
+            <div class="fc-process-item">
+                <span>03</span>
+                <div>
+                    <h3>Confirm</h3>
+                    <p>Receive a clear booking status once your request is reviewed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="fc-section fc-cta-section">
+    <div class="container">
+        <div class="fc-cta">
+            <div>
+                <span class="fc-eyebrow">Ready to drive?</span>
+                <h2>Find your next car.</h2>
+                <p class="mb-0">
+                    Explore the FAST CARS fleet and start your booking request.
+                </p>
+            </div>
+
+            <a href="#cars" class="btn fc-btn fc-btn-primary px-4">
+                Browse Cars
+                <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
