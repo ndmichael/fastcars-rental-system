@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Cars | FAST CARS{% endblock %}
+
+{% block meta_description %}
+Browse available vehicles from FAST CARS and find the right car for your journey.
+{% endblock %}
+
+{% block content %}
+
+<section class="fc-section">
+    <div class="container">
+        <div class="mb-4">
+            <span class="fc-eyebrow">Our fleet</span>
+            <h1 class="mb-2">Choose your car.</h1>
+            <p class="fc-text-muted mb-0">
+                Explore the vehicles currently available for rental.
+            </p>
+        </div>
+
+        {% if vehicles %}
+            <div class="row g-4">
+                {% for vehicle in vehicles %}
+                    <div class="col-md-6 col-xl-4">
+                        <article class="fc-vehicle-preview h-100">
+                            <div class="fc-vehicle-image">
+                                {% if vehicle.primary_image %}
+                                    <img
+                                        src="{{ vehicle.primary_image.url }}"
+                                        alt="{{ vehicle.brand.name }} {{ vehicle.model_name }}"
+                                    >
+                                {% else %}
+                                    <div class="fc-image-placeholder">
+                                        <i class="bi bi-car-front"></i>
+                                        <span>Image unavailable</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="fc-vehicle-preview-body">
+                                <span class="fc-vehicle-type">
+                                    {{ vehicle.get_category_display }}
+                                </span>
+
+                                <h3>
+                                    {{ vehicle.brand.name }} {{ vehicle.model_name }}
+                                </h3>
+
+                                <p>
+                                    {{ vehicle.year }}
+                                    · {{ vehicle.get_transmission_display }}
+                                    · {{ vehicle.seats }} seats
+                                </p>
+
+                                <div class="d-flex align-items-center justify-content-between gap-3">
+                                    <strong>
+                                        ₦{{ vehicle.daily_rate|floatformat:2 }}/day
+                                    </strong>
+
+                                    <a
+                                        href="{% url 'vehicles:detail' vehicle.pk %}"
+                                        class="fc-text-link"
+                                    >
+                                        View details
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="fc-empty-state">
+                <div class="fc-icon-box">
+                    <i class="bi bi-car-front"></i>
+                </div>
+
+                <h2>No cars available yet.</h2>
+
+                <p>
+                    Our fleet is being prepared. Please check back shortly.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
