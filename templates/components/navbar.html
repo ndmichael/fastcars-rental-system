@@ -1,8 +1,6 @@
 <nav class="navbar navbar-expand-lg fc-navbar">
-
     <div class="container">
-
-        <a 
+        <a
             class="navbar-brand fc-brand"
             href="{% url 'pages:home' %}"
             aria-label="FAST CARS home"
@@ -10,13 +8,10 @@
             <span class="fc-brand-icon">
                 <i class="bi bi-car-front-fill"></i>
             </span>
-
             FAST<span>CARS</span>
         </a>
 
-
         <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
-
             <button
                 class="btn fc-theme-toggle"
                 type="button"
@@ -25,7 +20,6 @@
             >
                 <i class="bi bi-moon-stars" data-theme-icon></i>
             </button>
-
 
             <button
                 class="navbar-toggler fc-navbar-toggler"
@@ -38,43 +32,42 @@
             >
                 <i class="bi bi-list"></i>
             </button>
-
         </div>
 
-
         <div class="collapse navbar-collapse" id="mainNavigation">
-
             <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
-
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'pages:home' %}">
+                    <a
+                        class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                        href="{% url 'pages:home' %}"
+                    >
                         Home
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'vehicles:list' %}">
+                    <a
+                        class="nav-link"
+                        href="{% url 'vehicles:list' %}"
+                    >
                         Cars
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'pages:home' %}#why-us">
                         About
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'pages:home' %}#contact">
                         Contact
                     </a>
                 </li>
-
             </ul>
 
-
             <div class="d-none d-lg-flex align-items-center gap-2">
-
                 <button
                     class="btn fc-theme-toggle"
                     type="button"
@@ -84,33 +77,178 @@
                     <i class="bi bi-moon-stars" data-theme-icon></i>
                 </button>
 
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown">
+                        <button
+                            class="btn fc-btn fc-btn-outline dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            <i class="bi bi-person-circle me-1"></i>
+                            {{ request.user.get_short_name|default:request.user.username }}
+                        </button>
 
-                <a href="#" class="btn fc-btn fc-btn-outline">
-                    Login
-                </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{% url 'accounts:password_change' %}"
+                                >
+                                    <i class="bi bi-key me-2"></i>
+                                    Change Password
+                                </a>
+                            </li>
 
+                            {% if request.user.is_staff %}
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="/admin/"
+                                    >
+                                        <i class="bi bi-speedometer2 me-2"></i>
+                                        Admin
+                                    </a>
+                                </li>
+                            {% endif %}
 
-                <a href="#" class="btn fc-btn fc-btn-primary">
-                    Browse Cars
-                </a>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
 
+                            <li>
+                                <button
+                                    type="button"
+                                    class="dropdown-item text-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#logoutModal"
+                                >
+                                    <i class="bi bi-box-arrow-right me-2"></i>
+                                    Logout
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a
+                        href="{% url 'accounts:login' %}"
+                        class="btn fc-btn fc-btn-outline"
+                    >
+                        Login
+                    </a>
+
+                    <a
+                        href="{% url 'accounts:register' %}"
+                        class="btn fc-btn fc-btn-primary"
+                    >
+                        Create Account
+                    </a>
+                {% endif %}
             </div>
-
 
             <div class="d-flex d-lg-none flex-column gap-2 pb-3">
+                {% if request.user.is_authenticated %}
+                    <a
+                        href="{% url 'accounts:password_change' %}"
+                        class="btn fc-btn fc-btn-outline"
+                    >
+                        <i class="bi bi-key me-2"></i>
+                        Change Password
+                    </a>
 
-                <a href="#" class="btn fc-btn fc-btn-outline">
-                    Login
-                </a>
+                    {% if request.user.is_staff %}
+                        <a
+                            href="/admin/"
+                            class="btn fc-btn fc-btn-outline"
+                        >
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Admin
+                        </a>
+                    {% endif %}
 
-                <a href="#" class="btn fc-btn fc-btn-primary">
-                    Browse Cars
-                </a>
+                    <button
+                        type="button"
+                        class="btn fc-btn fc-btn-outline text-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#logoutModal"
+                    >
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        Logout
+                    </button>
+                {% else %}
+                    <a
+                        href="{% url 'accounts:login' %}"
+                        class="btn fc-btn fc-btn-outline"
+                    >
+                        Login
+                    </a>
 
+                    <a
+                        href="{% url 'accounts:register' %}"
+                        class="btn fc-btn fc-btn-primary"
+                    >
+                        Create Account
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+{% if request.user.is_authenticated %}
+<div
+    class="modal fade"
+    id="logoutModal"
+    tabindex="-1"
+    aria-labelledby="logoutModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content fc-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">
+                    Logout?
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
             </div>
 
+            <div class="modal-body">
+                <p class="mb-0 fc-text-muted">
+                    Are you sure you want to log out of your FAST CARS account?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn fc-btn fc-btn-outline"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+                <form
+                    method="post"
+                    action="{% url 'accounts:logout' %}"
+                    class="m-0"
+                >
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn fc-btn fc-btn-primary"
+                    >
+                        Logout
+                    </button>
+                </form>
+            </div>
         </div>
-
     </div>
-
-</nav>
+</div>
+{% endif %}
