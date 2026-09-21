@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    /*
-     * Theme
-     */
+    /* Theme */
 
     const html = document.documentElement;
     const themeButtons = document.querySelectorAll("[data-theme-toggle]");
@@ -52,210 +50,228 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    /*
-     * Booking availability
-     */
+    /* Password visibility */
+
+    document.querySelectorAll("[data-password-toggle]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const wrapper = button.closest(".fc-password-field");
+            const input = wrapper?.querySelector("input");
+
+            if (!input) {
+                return;
+            }
+
+            const icon = button.querySelector("i");
+            const isPassword = input.type === "password";
+
+            input.type = isPassword ? "text" : "password";
+
+            if (icon) {
+                icon.className = isPassword
+                    ? "bi bi-eye-slash"
+                    : "bi bi-eye";
+            }
+
+            button.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+        });
+    });
+
+
+    /* Booking availability */
 
     const bookingForm = document.getElementById("bookingForm");
 
-    if (!bookingForm) {
-        return;
-    }
+    if (bookingForm) {
+        const pickupInput = document.getElementById("pickup_date");
+        const returnInput = document.getElementById("return_date");
+        const checkButton = document.getElementById("checkAvailabilityButton");
+        const submitButton = document.getElementById("submitBookingButton");
+        const summary = document.getElementById("bookingSummary");
+        const result = document.getElementById("availabilityResult");
+        const loginNotice = document.getElementById("loginNotice");
 
-    const pickupInput = document.getElementById("pickup_date");
-    const returnInput = document.getElementById("return_date");
-    const checkButton = document.getElementById("checkAvailabilityButton");
-    const submitButton = document.getElementById("submitBookingButton");
-    const summary = document.getElementById("bookingSummary");
-    const result = document.getElementById("availabilityResult");
-    const loginNotice = document.getElementById("loginNotice");
+        const summaryDays = document.getElementById("summaryDays");
+        const summaryRate = document.getElementById("summaryRate");
+        const summaryTotal = document.getElementById("summaryTotal");
 
-    const summaryDays = document.getElementById("summaryDays");
-    const summaryRate = document.getElementById("summaryRate");
-    const summaryTotal = document.getElementById("summaryTotal");
+        const getToday = () => {
+            const date = new Date();
+            const offset = date.getTimezoneOffset();
 
-    const getToday = () => {
-        const date = new Date();
-        const offset = date.getTimezoneOffset();
+            date.setMinutes(date.getMinutes() - offset);
 
-        date.setMinutes(date.getMinutes() - offset);
+            return date.toISOString().split("T")[0];
+        };
 
-        return date.toISOString().split("T")[0];
-    };
+        pickupInput.min = getToday();
+        returnInput.min = getToday();
 
-    pickupInput.min = getToday();
-    returnInput.min = getToday();
+        const resetAvailability = () => {
+            summary.classList.add("d-none");
+            result.className = "fc-booking-result d-none";
 
-    pickupInput.addEventListener("change", () => {
-        returnInput.min = pickupInput.value || getToday();
+            if (submitButton) {
+                submitButton.classList.add("d-none");
+            }
 
-        summary.classList.add("d-none");
-        result.className = "fc-booking-result d-none";
+            if (loginNotice) {
+                loginNotice.classList.add("d-none");
+            }
+        };
 
-        if (submitButton) {
-            submitButton.classList.add("d-none");
-        }
+        pickupInput.addEventListener("change", () => {
+            returnInput.min = pickupInput.value || getToday();
+            resetAvailability();
+        });
 
-        if (loginNotice) {
-            loginNotice.classList.add("d-none");
-        }
-    });
+        returnInput.addEventListener("change", resetAvailability);
 
-    returnInput.addEventListener("change", () => {
-        summary.classList.add("d-none");
-        result.className = "fc-booking-result d-none";
-
-        if (submitButton) {
-            submitButton.classList.add("d-none");
-        }
-
-        if (loginNotice) {
-            loginNotice.classList.add("d-none");
-        }
-    });
-
-    const clearErrors = () => {
-        document
-            .querySelectorAll(".fc-form-error")
-            .forEach((element) => {
+        const clearErrors = () => {
+            document.querySelectorAll(".fc-form-error").forEach((element) => {
                 element.textContent = "";
             });
 
-        pickupInput.classList.remove("is-invalid");
-        returnInput.classList.remove("is-invalid");
-    };
+            pickupInput.classList.remove("is-invalid");
+            returnInput.classList.remove("is-invalid");
+        };
 
-    const showErrors = (errors) => {
-        Object.entries(errors).forEach(([field, messages]) => {
-            const errorElement = document.querySelector(
-                `[data-error="${field}"]`
-            );
+        const showErrors = (errors) => {
+            Object.entries(errors).forEach(([field, messages]) => {
+                const errorElement = document.querySelector(
+                    `[data-error="${field}"]`
+                );
 
-            const input = document.getElementById(field);
+                const input = document.getElementById(field);
 
-            if (errorElement) {
-                errorElement.textContent = messages[0];
+                if (errorElement && messages.length) {
+                    errorElement.textContent = messages[0];
+                }
+
+                if (input && messages.length) {
+                    input.classList.add("is-invalid");
+                }
+            });
+        };
+
+        const formatCurrency = (amount) => {
+            return Number(amount).toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+        };
+
+        checkButton.addEventListener("click", async () => {
+            clearErrors();
+
+            const pickupDate = pickupInput.value;
+            const returnDate = returnInput.value;
+
+            if (!pickupDate || !returnDate) {
+                showErrors({
+                    pickup_date: pickupDate
+                        ? []
+                        : ["Pick-up date is required."],
+                    return_date: returnDate
+                        ? []
+                        : ["Return date is required."],
+                });
+
+                return;
             }
 
-            if (input) {
-                input.classList.add("is-invalid");
-            }
-        });
-    };
+            const availabilityUrl =
+                bookingForm.dataset.availabilityUrl;
 
-    const formatCurrency = (amount) => {
-        return Number(amount).toLocaleString("en-NG", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        });
-    };
-
-    checkButton.addEventListener("click", async () => {
-        clearErrors();
-
-        const pickupDate = pickupInput.value;
-        const returnDate = returnInput.value;
-
-        if (!pickupDate || !returnDate) {
-            showErrors({
-                pickup_date: pickupDate
-                    ? []
-                    : ["Pick-up date is required."],
-                return_date: returnDate
-                    ? []
-                    : ["Return date is required."],
+            const params = new URLSearchParams({
+                pickup_date: pickupDate,
+                return_date: returnDate,
             });
 
-            return;
-        }
-
-        const availabilityUrl =
-            bookingForm.dataset.availabilityUrl;
-
-        const params = new URLSearchParams({
-            pickup_date: pickupDate,
-            return_date: returnDate,
-        });
-
-        checkButton.disabled = true;
-        checkButton.innerHTML = `
-            Checking availability
-            <span class="spinner-border spinner-border-sm ms-2"
-                  aria-hidden="true"></span>
-        `;
-
-        result.className = "fc-booking-result d-none";
-        summary.classList.add("d-none");
-
-        try {
-            const response = await fetch(
-                `${availabilityUrl}?${params.toString()}`,
-                {
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                    },
-                }
-            );
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                result.className = "fc-booking-result unavailable";
-                result.innerHTML = `
-                    <i class="bi bi-exclamation-circle"></i>
-                    <span>
-                        ${data.message || "Please check your selected dates."}
-                    </span>
-                `;
-
-                showErrors(data.errors || {});
-                return;
-            }
-
-            if (!data.available) {
-                result.className = "fc-booking-result unavailable";
-                result.innerHTML = `
-                    <i class="bi bi-x-circle"></i>
-                    <span>
-                        This vehicle is not available for those dates.
-                    </span>
-                `;
-
-                return;
-            }
-
-            result.className = "fc-booking-result available";
-            result.innerHTML = `
-                <i class="bi bi-check-circle"></i>
-                <span>${data.message}</span>
-            `;
-
-            summaryDays.textContent = data.rental_days;
-            summaryRate.textContent = formatCurrency(data.daily_rate);
-            summaryTotal.textContent = formatCurrency(data.total_amount);
-
-            summary.classList.remove("d-none");
-
-            if (submitButton) {
-                submitButton.classList.remove("d-none");
-            } else if (loginNotice) {
-                loginNotice.classList.remove("d-none");
-            }
-
-        } catch (error) {
-            result.className = "fc-booking-result unavailable";
-            result.innerHTML = `
-                <i class="bi bi-exclamation-triangle"></i>
-                <span>
-                    Something went wrong while checking availability.
-                </span>
-            `;
-        } finally {
-            checkButton.disabled = false;
+            checkButton.disabled = true;
             checkButton.innerHTML = `
-                Check Availability
-                <i class="bi bi-arrow-right ms-2"></i>
+                Checking availability
+                <span
+                    class="spinner-border spinner-border-sm ms-2"
+                    aria-hidden="true"
+                ></span>
             `;
-        }
-    });
+
+            result.className = "fc-booking-result d-none";
+            summary.classList.add("d-none");
+
+            try {
+                const response = await fetch(
+                    `${availabilityUrl}?${params.toString()}`,
+                    {
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest",
+                        },
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    result.className = "fc-booking-result unavailable";
+                    result.innerHTML = `
+                        <i class="bi bi-exclamation-circle"></i>
+                        <span>
+                            ${data.message || "Please check your selected dates."}
+                        </span>
+                    `;
+
+                    showErrors(data.errors || {});
+                    return;
+                }
+
+                if (!data.available) {
+                    result.className = "fc-booking-result unavailable";
+                    result.innerHTML = `
+                        <i class="bi bi-x-circle"></i>
+                        <span>
+                            This vehicle is not available for those dates.
+                        </span>
+                    `;
+
+                    return;
+                }
+
+                result.className = "fc-booking-result available";
+                result.innerHTML = `
+                    <i class="bi bi-check-circle"></i>
+                    <span>${data.message}</span>
+                `;
+
+                summaryDays.textContent = data.rental_days;
+                summaryRate.textContent = formatCurrency(data.daily_rate);
+                summaryTotal.textContent = formatCurrency(data.total_amount);
+
+                summary.classList.remove("d-none");
+
+                if (submitButton) {
+                    submitButton.classList.remove("d-none");
+                } else if (loginNotice) {
+                    loginNotice.classList.remove("d-none");
+                }
+
+            } catch (error) {
+                result.className = "fc-booking-result unavailable";
+                result.innerHTML = `
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <span>
+                        Something went wrong while checking availability.
+                    </span>
+                `;
+            } finally {
+                checkButton.disabled = false;
+                checkButton.innerHTML = `
+                    Check Availability
+                    <i class="bi bi-arrow-right ms-2"></i>
+                `;
+            }
+        });
+    }
 });
