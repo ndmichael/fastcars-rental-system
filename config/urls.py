@@ -9,6 +9,7 @@ urlpatterns = [
     path("", include("pages.urls")),
     path("vehicles/", include("vehicles.urls")),
     path("bookings/", include("bookings.urls")),
+    path("accounts/", include("accounts.urls")),
 ]
 
 
