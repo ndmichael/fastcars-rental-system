@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Request Submitted | FAST CARS{% endblock %}
+
+{% block content %}
+
+<section class="fc-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+
+                <div class="fc-card p-4 p-lg-5 text-center">
+
+                    <div class="fc-icon-box mx-auto mb-3">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+
+                    <span class="fc-eyebrow">
+                        Booking request submitted
+                    </span>
+
+                    <h1 class="mb-3">
+                        Your request has been received.
+                    </h1>
+
+                    <p class="fc-text-muted mb-4">
+                        FAST CARS will review your request and update its status
+                        once it has been confirmed.
+                    </p>
+
+                    <div class="fc-booking-summary text-start mb-4">
+
+                        <div class="fc-summary-row">
+                            <span>Reference</span>
+                            <strong>{{ booking.reference }}</strong>
+                        </div>
+
+                        <div class="fc-summary-row">
+                            <span>Vehicle</span>
+                            <strong>
+                                {{ booking.vehicle.brand.name }}
+                                {{ booking.vehicle.model_name }}
+                            </strong>
+                        </div>
+
+                        <div class="fc-summary-row">
+                            <span>Pick-up</span>
+                            <strong>{{ booking.pickup_date }}</strong>
+                        </div>
+
+                        <div class="fc-summary-row">
+                            <span>Return</span>
+                            <strong>{{ booking.return_date }}</strong>
+                        </div>
+
+                        <div class="fc-summary-row">
+                            <span>Status</span>
+                            <strong class="fc-status fc-status-pending">
+                                <i class="bi bi-clock"></i>
+                                {{ booking.get_status_display }}
+                            </strong>
+                        </div>
+
+                        <div class="fc-summary-row fc-summary-total">
+                            <span>Total</span>
+                            <strong>
+                                ₦{{ booking.total_amount|floatformat:2 }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                    <a
+                        href="{% url 'vehicles:list' %}"
+                        class="btn fc-btn fc-btn-primary"
+                    >
+                        Browse More Cars
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

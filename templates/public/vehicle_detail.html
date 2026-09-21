@@ -1,0 +1,269 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ vehicle.brand.name }} {{ vehicle.model_name }} | FAST CARS
+{% endblock %}
+
+{% block meta_description %}
+    View details and rental information for the {{ vehicle.brand.name }} {{ vehicle.model_name }}.
+{% endblock %}
+
+{% block content %}
+
+<section class="fc-section">
+    <div class="container">
+
+        <a href="{% url 'vehicles:list' %}" class="fc-text-link mb-4">
+            <i class="bi bi-arrow-left"></i>
+            Back to cars
+        </a>
+
+        <div class="row g-4 g-lg-5">
+
+            <div class="col-lg-7">
+                <div class="fc-vehicle-detail-image">
+                    {% if vehicle.primary_image %}
+                        <img
+                            src="{{ vehicle.primary_image.url }}"
+                            alt="{{ vehicle.brand.name }} {{ vehicle.model_name }}"
+                        >
+                    {% else %}
+                        <div class="fc-image-placeholder">
+                            <i class="bi bi-car-front"></i>
+                            <span>Image unavailable</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if vehicle.supporting_images.all %}
+                    <div class="row g-2 mt-2">
+                        {% for image in vehicle.supporting_images.all %}
+                            <div class="col-4">
+                                <div class="fc-vehicle-thumb">
+                                    <img
+                                        src="{{ image.image.url }}"
+                                        alt="{{ vehicle.brand.name }} {{ vehicle.model_name }} image {{ forloop.counter }}"
+                                    >
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <div class="col-lg-5">
+
+                <span class="fc-eyebrow">
+                    {{ vehicle.get_category_display }}
+                </span>
+
+                <h1 class="mb-2">
+                    {{ vehicle.brand.name }} {{ vehicle.model_name }}
+                </h1>
+
+                <p class="fc-text-muted mb-4">
+                    {{ vehicle.year }}
+                    · {{ vehicle.get_transmission_display }}
+                    · {{ vehicle.get_fuel_type_display }}
+                </p>
+
+                {% if vehicle.description %}
+                    <p class="mb-4">
+                        {{ vehicle.description }}
+                    </p>
+                {% endif %}
+
+
+                <div class="fc-card p-3 mb-4">
+                    <div class="row g-3">
+
+                        <div class="col-6">
+                            <span class="fc-detail-label">Daily rate</span>
+                            <strong class="fc-detail-value">
+                                ₦{{ vehicle.daily_rate|floatformat:2 }}
+                            </strong>
+                        </div>
+
+                        <div class="col-6">
+                            <span class="fc-detail-label">Seats</span>
+                            <strong class="fc-detail-value">
+                                {{ vehicle.seats }}
+                            </strong>
+                        </div>
+
+                        <div class="col-6">
+                            <span class="fc-detail-label">Transmission</span>
+                            <strong class="fc-detail-value">
+                                {{ vehicle.get_transmission_display }}
+                            </strong>
+                        </div>
+
+                        <div class="col-6">
+                            <span class="fc-detail-label">Fuel</span>
+                            <strong class="fc-detail-value">
+                                {{ vehicle.get_fuel_type_display }}
+                            </strong>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Booking -->
+
+                <div class="fc-booking-card">
+
+                    <div class="mb-3">
+                        <span class="fc-eyebrow mb-2">
+                            Reserve this vehicle
+                        </span>
+
+                        <h3 class="mb-1">
+                            Choose your dates
+                        </h3>
+
+                        <p class="fc-text-muted mb-0">
+                            Check availability before submitting your request.
+                        </p>
+                    </div>
+
+
+                    <form
+                        id="bookingForm"
+                        method="post"
+                        action="{% url 'bookings:create' vehicle.pk %}"
+                        data-availability-url="{% url 'bookings:check_availability' vehicle.pk %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+
+                            <div class="col-sm-6">
+                                <label
+                                    for="pickup_date"
+                                    class="fc-form-label"
+                                >
+                                    Pick-up date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="pickup_date"
+                                    name="pickup_date"
+                                    class="form-control fc-form-control"
+                                    required
+                                >
+
+                                <div
+                                    class="fc-form-error"
+                                    data-error="pickup_date"
+                                ></div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label
+                                    for="return_date"
+                                    class="fc-form-label"
+                                >
+                                    Return date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="return_date"
+                                    name="return_date"
+                                    class="form-control fc-form-control"
+                                    required
+                                >
+
+                                <div
+                                    class="fc-form-error"
+                                    data-error="return_date"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="availabilityResult"
+                            class="fc-booking-result d-none"
+                            aria-live="polite"
+                        ></div>
+
+
+                        <div class="fc-booking-summary d-none" id="bookingSummary">
+
+                            <div class="fc-summary-row">
+                                <span>Rental period</span>
+                                <strong>
+                                    <span id="summaryDays">0</span> days
+                                </strong>
+                            </div>
+
+                            <div class="fc-summary-row">
+                                <span>Rate per day</span>
+                                <strong>
+                                    ₦<span id="summaryRate">0.00</span>
+                                </strong>
+                            </div>
+
+                            <div class="fc-summary-row fc-summary-total">
+                                <span>Total</span>
+                                <strong>
+                                    ₦<span id="summaryTotal">0.00</span>
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="btn fc-btn fc-btn-primary w-100 mt-3"
+                            id="checkAvailabilityButton"
+                        >
+                            Check Availability
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+
+
+                        {% if request.user.is_authenticated %}
+
+                            <button
+                                type="submit"
+                                class="btn fc-btn fc-btn-primary w-100 mt-2 d-none"
+                                id="submitBookingButton"
+                            >
+                                Submit Booking Request
+                                <i class="bi bi-check2-circle ms-2"></i>
+                            </button>
+
+                        {% else %}
+
+                            <div
+                                class="fc-login-notice d-none"
+                                id="loginNotice"
+                            >
+                                <i class="bi bi-person-lock"></i>
+                                <span>
+                                    You need an account to submit a booking request.
+                                </span>
+                            </div>
+
+                        {% endif %}
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

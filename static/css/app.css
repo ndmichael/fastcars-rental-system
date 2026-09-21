@@ -916,3 +916,180 @@ p {
         align-items: flex-start;
     }
 }
+
+/* Vehicle pages */
+
+.fc-image-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+    background: var(--fc-surface-soft);
+    color: var(--fc-primary);
+    font-size: .8rem;
+}
+
+.fc-image-placeholder i {
+    font-size: 2.2rem;
+}
+
+.fc-empty-state {
+    padding: 4rem 1.5rem;
+    text-align: center;
+    background: var(--fc-surface);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+}
+
+.fc-empty-state .fc-icon-box {
+    margin: 0 auto 1rem;
+    background: rgba(11, 31, 58, .08);
+    color: var(--fc-primary);
+}
+
+[data-theme="dark"] .fc-empty-state .fc-icon-box {
+    background: rgba(37, 99, 235, .12);
+    color: var(--fc-primary);
+}
+
+.fc-empty-state h2 {
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
+}
+
+.fc-empty-state p {
+    margin: 0;
+    color: var(--fc-text-muted);
+}
+
+.fc-vehicle-detail-image {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--fc-surface-soft);
+    border-radius: var(--fc-radius-md);
+}
+
+.fc-vehicle-detail-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.fc-vehicle-thumb {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--fc-radius-sm);
+    background: var(--fc-surface-soft);
+}
+
+.fc-vehicle-thumb img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.fc-detail-label {
+    display: block;
+    margin-bottom: .2rem;
+    color: var(--fc-text-muted);
+    font-size: .75rem;
+}
+
+.fc-detail-value {
+    display: block;
+    color: var(--fc-text);
+}
+
+
+/* Booking */
+
+.fc-booking-card {
+    padding: 1.25rem;
+    background: var(--fc-surface);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+    box-shadow: var(--fc-shadow-sm);
+}
+
+.fc-form-error {
+    margin-top: .35rem;
+    color: var(--fc-danger);
+    font-size: .78rem;
+}
+
+.fc-booking-result {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    margin-top: 1rem;
+    padding: .8rem;
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-sm);
+    font-size: .82rem;
+}
+
+.fc-booking-result.available {
+    background: rgba(21, 128, 61, .08);
+    border-color: rgba(21, 128, 61, .2);
+    color: var(--fc-success);
+}
+
+.fc-booking-result.unavailable {
+    background: rgba(185, 28, 28, .08);
+    border-color: rgba(185, 28, 28, .2);
+    color: var(--fc-danger);
+}
+
+.fc-booking-summary {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--fc-border);
+}
+
+.fc-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .45rem 0;
+    color: var(--fc-text-muted);
+    font-size: .85rem;
+}
+
+.fc-summary-row strong {
+    color: var(--fc-text);
+}
+
+.fc-summary-total {
+    margin-top: .35rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--fc-border);
+    font-size: .95rem;
+}
+
+.fc-summary-total strong {
+    font-size: 1.1rem;
+}
+
+.fc-login-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: .5rem;
+    margin-top: .75rem;
+    padding: .75rem;
+    background: var(--fc-surface-soft);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-sm);
+    color: var(--fc-text-muted);
+    font-size: .78rem;
+}
+
+.fc-login-notice i {
+    color: var(--fc-primary);
+}
