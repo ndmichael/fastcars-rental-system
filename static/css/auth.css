@@ -1,0 +1,193 @@
+/* Auth */
+
+.fc-auth-section {
+    padding: 3.5rem 0 4rem;
+}
+
+.fc-auth-section-compact {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+}
+
+.fc-auth-layout {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: .85fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.fc-auth-intro h1 {
+    max-width: 500px;
+    margin-bottom: 1rem;
+}
+
+.fc-auth-intro p {
+    max-width: 470px;
+    margin: 0;
+    color: var(--fc-text-muted);
+    font-size: 1rem;
+}
+
+.fc-auth-card {
+    padding: 1.75rem;
+    background: var(--fc-surface);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+    box-shadow: var(--fc-shadow-sm);
+}
+
+.fc-auth-card-centered {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.fc-auth-card-header {
+    margin-bottom: 1.5rem;
+}
+
+.fc-auth-card-header .fc-icon-box {
+    margin-bottom: 1rem;
+}
+
+.fc-auth-card-header h1,
+.fc-auth-card-header h2 {
+    margin-bottom: .45rem;
+}
+
+.fc-auth-card-header p {
+    margin: 0;
+    color: var(--fc-text-muted);
+    font-size: .88rem;
+}
+
+.fc-auth-link {
+    color: var(--fc-primary);
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.fc-auth-link:hover {
+    color: var(--fc-primary-hover);
+}
+
+.fc-password-field {
+    position: relative;
+}
+
+.fc-password-field .fc-form-control {
+    padding-right: 3rem;
+}
+
+.fc-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: .65rem;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    color: var(--fc-text-muted);
+    cursor: pointer;
+}
+
+.fc-password-toggle:hover {
+    color: var(--fc-text);
+}
+
+.fc-password-toggle:focus-visible {
+    outline: 2px solid var(--fc-primary);
+    outline-offset: 1px;
+    border-radius: 6px;
+}
+
+.fc-form-error {
+    margin-top: .35rem;
+    color: var(--fc-danger);
+    font-size: .78rem;
+}
+
+.fc-auth-error {
+    display: flex;
+    align-items: flex-start;
+    gap: .55rem;
+    padding: .8rem;
+    background: rgba(185, 28, 28, .07);
+    border: 1px solid rgba(185, 28, 28, .16);
+    border-radius: var(--fc-radius-sm);
+    color: var(--fc-danger);
+    font-size: .82rem;
+}
+
+.fc-auth-footer {
+    margin: 1.25rem 0 0;
+    color: var(--fc-text-muted);
+    font-size: .82rem;
+    text-align: center;
+}
+
+.fc-auth-footer a {
+    color: var(--fc-primary);
+    font-weight: 700;
+}
+
+.fc-auth-footer a:hover {
+    color: var(--fc-primary-hover);
+}
+
+.fc-modal {
+    overflow: hidden;
+    background: var(--fc-surface);
+    color: var(--fc-text);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+}
+
+.fc-modal .modal-header,
+.fc-modal .modal-footer {
+    border-color: var(--fc-border);
+}
+
+.fc-modal .btn-close {
+    filter: none;
+}
+
+[data-theme="dark"] .fc-modal .btn-close {
+    filter: invert(1);
+}
+
+@media (max-width: 767.98px) {
+    .fc-auth-section {
+        padding: 2.5rem 0 3rem;
+    }
+
+    .fc-auth-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .fc-auth-intro {
+        text-align: center;
+    }
+
+    .fc-auth-intro h1,
+    .fc-auth-intro p {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .fc-auth-intro h1 {
+        font-size: clamp(2rem, 9vw, 3rem);
+    }
+
+    .fc-auth-card {
+        padding: 1.25rem;
+    }
+}

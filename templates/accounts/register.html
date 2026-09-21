@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Account | FAST CARS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="fc-auth-section">
+    <div class="container">
+        <div class="fc-auth-layout">
+            <div class="fc-auth-intro">
+                <span class="fc-eyebrow">Join FAST CARS</span>
+
+                <h1>Your next journey starts here.</h1>
+
+                <p>
+                    Create your account to book vehicles, manage your requests,
+                    and keep track of your rental history.
+                </p>
+            </div>
+
+            <div class="fc-auth-card">
+                <div class="fc-auth-card-header">
+                    <div class="fc-icon-box">
+                        <i class="bi bi-person-plus"></i>
+                    </div>
+
+                    <h2>Create account</h2>
+
+                    <p>Set up your FAST CARS account in a few steps.</p>
+                </div>
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="fc-auth-error mb-3">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <div>
+                                {% for error in form.non_field_errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="{{ form.first_name.id_for_label }}" class="fc-form-label">
+                                First name
+                            </label>
+
+                            {{ form.first_name }}
+
+                            {% for error in form.first_name.errors %}
+                                <div class="fc-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label for="{{ form.last_name.id_for_label }}" class="fc-form-label">
+                                Last name
+                            </label>
+
+                            {{ form.last_name }}
+
+                            {% for error in form.last_name.errors %}
+                                <div class="fc-form-error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="{{ form.username.id_for_label }}" class="fc-form-label">
+                            Username
+                        </label>
+
+                        {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="{{ form.email.id_for_label }}" class="fc-form-label">
+                            Email address
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="{{ form.phone_number.id_for_label }}" class="fc-form-label">
+                            Phone number
+                        </label>
+
+                        {{ form.phone_number }}
+
+                        {% for error in form.phone_number.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="{{ form.password1.id_for_label }}" class="fc-form-label">
+                            Password
+                        </label>
+
+                        <div class="fc-password-field">
+                            {{ form.password1 }}
+
+                            <button
+                                type="button"
+                                class="fc-password-toggle"
+                                data-password-toggle
+                                aria-label="Show password"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        {% for error in form.password1.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-3">
+                        <label for="{{ form.password2.id_for_label }}" class="fc-form-label">
+                            Confirm password
+                        </label>
+
+                        <div class="fc-password-field">
+                            {{ form.password2 }}
+
+                            <button
+                                type="button"
+                                class="fc-password-toggle"
+                                data-password-toggle
+                                aria-label="Show password"
+                            >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        {% for error in form.password2.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                    <button
+                        type="submit"
+                        class="btn fc-btn fc-btn-primary w-100 mt-4"
+                    >
+                        Create Account
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </form>
+
+                <p class="fc-auth-footer">
+                    Already have an account?
+                    <a href="{% url 'accounts:login' %}">
+                        Sign in
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
