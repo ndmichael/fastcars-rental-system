@@ -122,15 +122,18 @@ def my_bookings(request):
     if request.user.role != "customer":
         return render(request, "403.html", status=403)
 
+    status_field = Booking._meta.get_field("status")
+    status_choices = status_field.choices
+    status_values = {value for value, _ in status_choices}
+
+    selected_status = request.GET.get("status", "all").lower()
+
     bookings = (
         Booking.objects
         .filter(customer=request.user)
         .select_related("vehicle")
         .order_by("-created_at")
     )
-
-    selected_status = request.GET.get("status", "all").lower()
-    status_values = {value for value, _ in Booking.STATUS_CHOICES}
 
     if selected_status != "all" and selected_status in status_values:
         bookings = bookings.filter(status=selected_status)
@@ -159,6 +162,6 @@ def my_bookings(request):
             "page_obj": page_obj,
             "counts": counts,
             "selected_status": selected_status,
-            "status_choices": Booking.STATUS_CHOICES,
+            "status_choices": status_choices,
         },
     )
