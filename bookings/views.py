@@ -165,3 +165,25 @@ def my_bookings(request):
             "status_choices": status_choices,
         },
     )
+
+
+@login_required
+def booking_detail(request, reference):
+    if request.user.role != "customer":
+        return render(request, "403.html", status=403)
+
+    booking = get_object_or_404(
+        Booking.objects.select_related("vehicle"),
+        reference=reference,
+        customer=request.user,
+    )
+
+    return render(
+        request,
+        "customer/booking_detail.html",
+        {
+            "booking": booking,
+            "page_title": "Booking Details",
+            "portal_label": "Customer Portal",
+        },
+    )

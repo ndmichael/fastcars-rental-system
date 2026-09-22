@@ -91,6 +91,7 @@
                         <th>Days</th>
                         <th>Status</th>
                         <th class="text-end">Total</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -147,6 +148,16 @@
                                 <strong class="fc-booking-total">
                                     ₦{{ booking.total_amount|floatformat:0 }}
                                 </strong>
+                            </td>
+
+                            <td class="text-end">
+                                <a
+                                    href="{% url 'bookings:booking_detail' booking.reference %}"
+                                    class="fc-booking-view"
+                                    aria-label="View {{ booking.reference }}"
+                                >
+                                    <i class="bi bi-arrow-up-right"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

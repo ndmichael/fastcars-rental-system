@@ -1,0 +1,195 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}{{ booking.reference }} | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-booking-detail-head">
+    <div>
+        <a href="{% url 'bookings:my_bookings' %}" class="fc-booking-back">
+            <i class="bi bi-arrow-left"></i>
+            My bookings
+        </a>
+
+        <div class="fc-booking-detail-title">
+            <div>
+                <p class="fc-dashboard-section-label">Reservation</p>
+                <h2>{{ booking.reference }}</h2>
+                <p>
+                    Created {{ booking.created_at|date:"d M Y, g:i A" }}
+                </p>
+            </div>
+
+            <span class="fc-status fc-status-{{ booking.status }}">
+                {{ booking.get_status_display }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-xl-8">
+        <div class="fc-dashboard-panel fc-booking-vehicle-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Vehicle</h3>
+                    <p>The car attached to this reservation.</p>
+                </div>
+
+                <a
+                    href="{% url 'vehicles:vehicle_detail' booking.vehicle.pk %}"
+                    class="fc-dashboard-panel-link"
+                >
+                    View car
+                </a>
+            </div>
+
+            <div class="fc-booking-vehicle-detail">
+                {% if booking.vehicle.primary_image %}
+                    <img
+                        src="{{ booking.vehicle.primary_image.url }}"
+                        alt="{{ booking.vehicle }}"
+                    >
+                {% endif %}
+
+                <div class="fc-booking-vehicle-info">
+                    <p class="fc-booking-vehicle-category">
+                        {{ booking.vehicle.get_category_display }}
+                    </p>
+
+                    <h3>{{ booking.vehicle }}</h3>
+
+                    <div class="fc-booking-vehicle-specs">
+                        <span>
+                            <i class="bi bi-people"></i>
+                            {{ booking.vehicle.seats }} seats
+                        </span>
+
+                        <span>
+                            <i class="bi bi-gear"></i>
+                            {{ booking.vehicle.get_transmission_display }}
+                        </span>
+
+                        <span>
+                            <i class="bi bi-fuel-pump"></i>
+                            {{ booking.vehicle.get_fuel_type_display }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fc-dashboard-panel fc-booking-dates-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Rental period</h3>
+                    <p>Your selected pickup and return dates.</p>
+                </div>
+            </div>
+
+            <div class="fc-booking-date-grid">
+                <div class="fc-booking-date-card">
+                    <span class="fc-booking-date-icon fc-booking-date-icon-pickup">
+                        <i class="bi bi-calendar-check"></i>
+                    </span>
+
+                    <div>
+                        <small>Pickup</small>
+                        <strong>{{ booking.pickup_date|date:"l, d M Y" }}</strong>
+                    </div>
+                </div>
+
+                <div class="fc-booking-date-card">
+                    <span class="fc-booking-date-icon fc-booking-date-icon-return">
+                        <i class="bi bi-calendar2-check"></i>
+                    </span>
+
+                    <div>
+                        <small>Return</small>
+                        <strong>{{ booking.return_date|date:"l, d M Y" }}</strong>
+                    </div>
+                </div>
+
+                <div class="fc-booking-date-card">
+                    <span class="fc-booking-date-icon fc-booking-date-icon-days">
+                        <i class="bi bi-clock-history"></i>
+                    </span>
+
+                    <div>
+                        <small>Rental duration</small>
+                        <strong>
+                            {{ booking.rental_days }}
+                            day{{ booking.rental_days|pluralize }}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="fc-dashboard-panel fc-booking-summary">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Booking summary</h3>
+                    <p>Reservation pricing.</p>
+                </div>
+            </div>
+
+            <div class="fc-booking-summary-body">
+                <div class="fc-booking-summary-row">
+                    <span>Daily rate</span>
+                    <strong>₦{{ booking.rate_per_day|floatformat:0 }}</strong>
+                </div>
+
+                <div class="fc-booking-summary-row">
+                    <span>Rental days</span>
+                    <strong>{{ booking.rental_days }}</strong>
+                </div>
+
+                <div class="fc-booking-summary-divider"></div>
+
+                <div class="fc-booking-summary-total">
+                    <span>Total amount</span>
+                    <strong>₦{{ booking.total_amount|floatformat:0 }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="fc-dashboard-panel fc-booking-customer-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Customer</h3>
+                    <p>Reservation account.</p>
+                </div>
+            </div>
+
+            <div class="fc-booking-customer">
+                <div class="fc-booking-customer-avatar">
+                    {% if user.avatar %}
+                        <img
+                            src="{{ user.avatar.url }}"
+                            alt="{{ user.get_full_name|default:user.username }}"
+                        >
+                    {% else %}
+                        {{ user.first_name|first|default:user.username|first|upper }}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <strong>
+                        {{ user.get_full_name|default:user.username }}
+                    </strong>
+
+                    <span>{{ user.email }}</span>
+
+                    {% if user.phone_number %}
+                        <span>{{ user.phone_number }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

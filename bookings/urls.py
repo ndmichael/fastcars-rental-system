@@ -8,4 +8,9 @@ urlpatterns = [
     path("check-availability/", views.check_availability, name="check_availability"),
     path("create/", views.create_booking, name="create_booking"),
     path("confirmation/<str:reference>/", views.booking_confirmation, name="booking_confirmation"),
+    path(
+        "my-bookings/<str:reference>/",
+        views.booking_detail,
+        name="booking_detail",
+    ),
 ]
