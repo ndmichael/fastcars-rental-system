@@ -1,0 +1,35 @@
+<nav class="fc-auth-navbar">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <a
+                href="{% url 'pages:home' %}"
+                class="fc-brand"
+                aria-label="FAST CARS home"
+            >
+                <span class="fc-brand-icon">
+                    <i class="bi bi-car-front-fill"></i>
+                </span>
+                FAST<span>CARS</span>
+            </a>
+
+            <div class="d-flex align-items-center gap-2">
+                <button
+                    class="btn fc-theme-toggle"
+                    type="button"
+                    data-theme-toggle
+                    aria-label="Toggle dark mode"
+                >
+                    <i class="bi bi-moon-stars" data-theme-icon></i>
+                </button>
+
+                <a
+                    href="{% url 'pages:home' %}"
+                    class="fc-auth-back"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to website</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

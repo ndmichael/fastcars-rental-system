@@ -1,11 +1,7 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "layouts/auth.html" %}
 
 {% block title %}Create Account | FAST CARS{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/auth.css' %}">
-{% endblock %}
 
 {% block content %}
 
@@ -167,7 +163,7 @@
                     </button>
                 </form>
 
-                <p class="fc-auth-footer">
+                <p class="fc-auth-form-footer">
                     Already have an account?
                     <a href="{% url 'accounts:login' %}">
                         Sign in
