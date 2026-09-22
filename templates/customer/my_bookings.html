@@ -1,0 +1,224 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}My Bookings | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-dashboard-welcome">
+    <div>
+        <p class="fc-dashboard-section-label">Rental history</p>
+        <h2>My Bookings</h2>
+        <p>Track your rental requests and booking history.</p>
+    </div>
+
+    <a href="/vehicles/" class="btn btn-primary fc-btn">
+        <i class="bi bi-plus-lg me-1"></i>
+        Book a car
+    </a>
+</div>
+
+<div class="fc-booking-filters">
+    <a
+        href="{% url 'bookings:my_bookings' %}"
+        class="fc-booking-filter {% if selected_status == 'all' %}active{% endif %}"
+    >
+        All
+        <span>{{ counts.total }}</span>
+    </a>
+
+    <a
+        href="{% url 'bookings:my_bookings' %}?status=pending"
+        class="fc-booking-filter {% if selected_status == 'pending' %}active{% endif %}"
+    >
+        Pending
+        <span>{{ counts.pending }}</span>
+    </a>
+
+    <a
+        href="{% url 'bookings:my_bookings' %}?status=confirmed"
+        class="fc-booking-filter {% if selected_status == 'confirmed' %}active{% endif %}"
+    >
+        Confirmed
+        <span>{{ counts.confirmed }}</span>
+    </a>
+
+    <a
+        href="{% url 'bookings:my_bookings' %}?status=completed"
+        class="fc-booking-filter {% if selected_status == 'completed' %}active{% endif %}"
+    >
+        Completed
+        <span>{{ counts.completed }}</span>
+    </a>
+
+    <a
+        href="{% url 'bookings:my_bookings' %}?status=cancelled"
+        class="fc-booking-filter {% if selected_status == 'cancelled' %}active{% endif %}"
+    >
+        Cancelled
+        <span>{{ counts.cancelled }}</span>
+    </a>
+</div>
+
+<div class="fc-dashboard-panel">
+    <div class="fc-dashboard-panel-header">
+        <div>
+            <h3>
+                {% if selected_status == "all" %}
+                    All bookings
+                {% else %}
+                    {{ selected_status|title }} bookings
+                {% endif %}
+            </h3>
+            <p>
+                {% if page_obj.paginator.count %}
+                    Showing {{ page_obj.paginator.count }} booking{{ page_obj.paginator.count|pluralize }}
+                {% else %}
+                    No bookings found
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    {% if page_obj.object_list %}
+        <div class="table-responsive">
+            <table class="table fc-dashboard-table fc-bookings-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Vehicle</th>
+                        <th>Pickup</th>
+                        <th>Return</th>
+                        <th>Days</th>
+                        <th>Status</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in page_obj %}
+                        <tr>
+                            <td>
+                                <span class="fc-booking-reference">
+                                    {{ booking.reference }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="fc-booking-vehicle">
+                                    {% if booking.vehicle.primary_image %}
+                                        <img
+                                            src="{{ booking.vehicle.primary_image.url }}"
+                                            alt="{{ booking.vehicle }}"
+                                        >
+                                    {% endif %}
+
+                                    <div>
+                                        <strong>{{ booking.vehicle }}</strong>
+                                        <small>
+                                            ₦{{ booking.rate_per_day|floatformat:0 }}/day
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-booking-date">
+                                    {{ booking.pickup_date|date:"d M Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-booking-date">
+                                    {{ booking.return_date|date:"d M Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ booking.rental_days }}
+                            </td>
+
+                            <td>
+                                <span class="fc-status fc-status-{{ booking.status }}">
+                                    {{ booking.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td class="text-end">
+                                <strong class="fc-booking-total">
+                                    ₦{{ booking.total_amount|floatformat:0 }}
+                                </strong>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="fc-bookings-pagination">
+                <div>
+                    {% if page_obj.has_previous %}
+                        <a
+                            href="?status={{ selected_status }}&page={{ page_obj.previous_page_number }}"
+                            class="fc-pagination-button"
+                            aria-label="Previous page"
+                        >
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    {% endif %}
+                </div>
+
+                <span>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                <div>
+                    {% if page_obj.has_next %}
+                        <a
+                            href="?status={{ selected_status }}&page={{ page_obj.next_page_number }}"
+                            class="fc-pagination-button"
+                            aria-label="Next page"
+                        >
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <div class="fc-dashboard-empty fc-bookings-empty">
+            <span>
+                <i class="bi bi-calendar2-x"></i>
+            </span>
+
+            <h4>
+                {% if selected_status == "all" %}
+                    No bookings yet
+                {% else %}
+                    No {{ selected_status }} bookings
+                {% endif %}
+            </h4>
+
+            <p>
+                {% if selected_status == "all" %}
+                    Your rental bookings will appear here once you make your first reservation.
+                {% else %}
+                    There are no bookings matching this status.
+                {% endif %}
+            </p>
+
+            {% if selected_status == "all" %}
+                <a href="/vehicles/" class="btn btn-primary fc-btn">
+                    Browse cars
+                </a>
+            {% else %}
+                <a href="{% url 'bookings:my_bookings' %}" class="btn btn-outline-primary fc-btn">
+                    View all bookings
+                </a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

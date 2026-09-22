@@ -1,0 +1,250 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}Dashboard | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-dashboard-welcome">
+    <div>
+        <p class="fc-dashboard-section-label">Overview</p>
+        <h2>
+            Welcome back, {{ user.first_name|default:user.username }}
+        </h2>
+        <p>
+            Here's what's happening with your FAST CARS account.
+        </p>
+    </div>
+
+    <a href="/vehicles/" class="btn btn-primary fc-btn">
+        <i class="bi bi-plus-lg me-1"></i>
+        Book a car
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Total bookings</span>
+                <span class="fc-dashboard-stat-icon">
+                    <i class="bi bi-calendar2-check"></i>
+                </span>
+            </div>
+            <strong>{{ stats.total }}</strong>
+            <small>All your rental requests</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Pending</span>
+                <span class="fc-dashboard-stat-icon">
+                    <i class="bi bi-hourglass-split"></i>
+                </span>
+            </div>
+            <strong>{{ stats.pending }}</strong>
+            <small>Awaiting confirmation</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Confirmed</span>
+                <span class="fc-dashboard-stat-icon">
+                    <i class="bi bi-check2-circle"></i>
+                </span>
+            </div>
+            <strong>{{ stats.confirmed }}</strong>
+            <small>Upcoming approved rentals</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Completed</span>
+                <span class="fc-dashboard-stat-icon">
+                    <i class="bi bi-flag"></i>
+                </span>
+            </div>
+            <strong>{{ stats.completed }}</strong>
+            <small>Successfully completed</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-lg-4">
+        <a href="/vehicles/" class="fc-dashboard-action">
+            <span class="fc-dashboard-action-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </span>
+            <span>
+                <strong>Browse cars</strong>
+                <small>Explore available vehicles</small>
+            </span>
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+
+    <div class="col-12 col-lg-4">
+        <a href="{% url 'bookings:my_bookings' %}" class="fc-dashboard-action">
+            <span class="fc-dashboard-action-icon">
+                <i class="bi bi-calendar-check"></i>
+            </span>
+            <span>
+                <strong>My bookings</strong>
+                <small>View your rental history</small>
+            </span>
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+
+    <div class="col-12 col-lg-4">
+        <a href="#" class="fc-dashboard-action">
+            <span class="fc-dashboard-action-icon">
+                <i class="bi bi-person"></i>
+            </span>
+            <span>
+                <strong>Update profile</strong>
+                <small>Manage your account details</small>
+            </span>
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-xl-8">
+        <div class="fc-dashboard-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Recent bookings</h3>
+                    <p>Your latest rental activity.</p>
+                </div>
+
+                <a href="{% url 'bookings:my_bookings' %}" class="fc-dashboard-panel-link">
+                    View all
+                </a>
+            </div>
+
+            {% if recent_bookings %}
+                <div class="table-responsive">
+                    <table class="table fc-dashboard-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Vehicle</th>
+                                <th>Dates</th>
+                                <th>Status</th>
+                                <th class="text-end">Amount</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for booking in recent_bookings %}
+                                <tr>
+                                    <td class="fw-bold">
+                                        {{ booking.reference }}
+                                    </td>
+
+                                    <td>
+                                        {{ booking.vehicle }}
+                                    </td>
+
+                                    <td>
+                                        {{ booking.pickup_date|date:"d M Y" }}
+                                        -
+                                        {{ booking.return_date|date:"d M Y" }}
+                                    </td>
+
+                                    <td>
+                                        <span class="fc-status fc-status-{{ booking.status }}">
+                                            {{ booking.get_status_display }}
+                                        </span>
+                                    </td>
+
+                                    <td class="text-end fw-bold">
+                                        ₦{{ booking.total_amount|floatformat:0 }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="fc-dashboard-empty">
+                    <span>
+                        <i class="bi bi-calendar-x"></i>
+                    </span>
+
+                    <h4>No bookings yet</h4>
+                    <p>
+                        You haven't made a rental booking yet.
+                    </p>
+
+                    <a href="/vehicles/" class="btn btn-primary fc-btn">
+                        Browse cars
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="fc-dashboard-panel fc-upcoming-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Upcoming rental</h3>
+                    <p>Your next confirmed booking.</p>
+                </div>
+            </div>
+
+            {% if upcoming_booking %}
+                <div class="fc-upcoming-booking">
+                    {% if upcoming_booking.vehicle.primary_image %}
+                        <img
+                            src="{{ upcoming_booking.vehicle.primary_image.url }}"
+                            alt="{{ upcoming_booking.vehicle }}"
+                        >
+                    {% endif %}
+
+                    <div class="fc-upcoming-details">
+                        <span class="fc-status fc-status-confirmed">
+                            Confirmed
+                        </span>
+
+                        <h4>{{ upcoming_booking.vehicle }}</h4>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            {{ upcoming_booking.pickup_date|date:"d M Y" }}
+                            —
+                            {{ upcoming_booking.return_date|date:"d M Y" }}
+                        </p>
+
+                        <p>
+                            <i class="bi bi-receipt"></i>
+                            {{ upcoming_booking.reference }}
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="fc-dashboard-empty fc-dashboard-empty-small">
+                    <span>
+                        <i class="bi bi-car-front"></i>
+                    </span>
+
+                    <h4>No upcoming rental</h4>
+                    <p>
+                        Your next confirmed booking will appear here.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -7,6 +7,9 @@ from vehicles.models import Vehicle
 from .forms import BookingForm
 from .models import Booking
 
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
+
 
 def check_availability(request, vehicle_id):
     if request.method != "GET":
@@ -110,5 +113,52 @@ def booking_confirmation(request, pk):
         "customer/booking_confirmation.html",
         {
             "booking": booking,
+        },
+    )
+
+
+@login_required
+def my_bookings(request):
+    if request.user.role != "customer":
+        return render(request, "403.html", status=403)
+
+    bookings = (
+        Booking.objects
+        .filter(customer=request.user)
+        .select_related("vehicle")
+        .order_by("-created_at")
+    )
+
+    selected_status = request.GET.get("status", "all").lower()
+    status_values = {value for value, _ in Booking.STATUS_CHOICES}
+
+    if selected_status != "all" and selected_status in status_values:
+        bookings = bookings.filter(status=selected_status)
+    else:
+        selected_status = "all"
+
+    all_customer_bookings = Booking.objects.filter(customer=request.user)
+
+    counts = all_customer_bookings.aggregate(
+        total=Count("id"),
+        pending=Count("id", filter=Q(status="pending")),
+        confirmed=Count("id", filter=Q(status="confirmed")),
+        completed=Count("id", filter=Q(status="completed")),
+        cancelled=Count("id", filter=Q(status="cancelled")),
+    )
+
+    paginator = Paginator(bookings, 10)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    return render(
+        request,
+        "customer/my_bookings.html",
+        {
+            "page_title": "My Bookings",
+            "portal_label": "Customer Portal",
+            "page_obj": page_obj,
+            "counts": counts,
+            "selected_status": selected_status,
+            "status_choices": Booking.STATUS_CHOICES,
         },
     )
