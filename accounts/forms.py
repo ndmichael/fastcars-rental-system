@@ -130,3 +130,49 @@ class LoginForm(AuthenticationForm):
                 self.cleaned_data["username"] = identifier
 
         return super().clean()
+
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "avatar",
+        )
+        widgets = {
+            "first_name": forms.TextInput(attrs={
+                "class": "fc-form-control",
+                "placeholder": "Michael",
+                "autocomplete": "given-name",
+            }),
+            "last_name": forms.TextInput(attrs={
+                "class": "fc-form-control",
+                "placeholder": "Ukeje",
+                "autocomplete": "family-name",
+            }),
+            "email": forms.EmailInput(attrs={
+                "class": "fc-form-control",
+                "autocomplete": "email",
+            }),
+            "phone_number": forms.TextInput(attrs={
+                "class": "fc-form-control",
+                "placeholder": "+234 800 000 0000",
+                "autocomplete": "tel",
+            }),
+            "avatar": forms.ClearableFileInput(attrs={
+                "class": "fc-form-control",
+                "accept": ".jpg,.jpeg,.png,.webp",
+            }),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data["email"].strip().lower()
+
+        if User.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("An account with this email already exists.")
+
+        return email

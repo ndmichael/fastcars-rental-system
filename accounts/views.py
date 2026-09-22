@@ -14,6 +14,9 @@ from django.utils import timezone
 
 from bookings.models import Booking
 
+from django.contrib import messages
+from .forms import ProfileForm
+
 
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -104,5 +107,34 @@ def dashboard_view(request):
             "stats": stats,
             "recent_bookings": bookings[:5],
             "upcoming_booking": upcoming_booking,
+        },
+    )
+
+
+@login_required
+def profile_view(request):
+    if request.user.role != "customer":
+        return redirect("pages:home")
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = user.email.strip().lower()
+            user.save()
+
+            messages.success(request, "Your profile has been updated successfully.")
+            return redirect("accounts:profile")
+    else:
+        form = ProfileForm(instance=request.user)
+
+    return render(
+        request,
+        "customer/profile.html",
+        {
+            "form": form,
+            "page_title": "Profile",
+            "portal_label": "Customer Portal",
         },
     )

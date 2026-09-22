@@ -1,0 +1,142 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}Profile | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-dashboard-welcome">
+    <div>
+        <p class="fc-dashboard-section-label">Account</p>
+        <h2>Your Profile</h2>
+        <p>Manage your personal information and account details.</p>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-xl-4">
+        <div class="fc-dashboard-panel fc-profile-card">
+            <div class="fc-profile-avatar">
+                {% if user.avatar %}
+                    <img
+                        src="{{ user.avatar.url }}"
+                        alt="{{ user.get_full_name|default:user.username }}"
+                    >
+                {% else %}
+                    {{ user.first_name|first|default:user.username|first|upper }}
+                {% endif %}
+            </div>
+
+            <h3>{{ user.get_full_name|default:user.username }}</h3>
+            <p>{{ user.email }}</p>
+
+            <span class="fc-profile-role">
+                <i class="bi bi-person-check"></i>
+                Customer
+            </span>
+
+            <div class="fc-profile-account-info">
+                <div>
+                    <span>Username</span>
+                    <strong>{{ user.username }}</strong>
+                </div>
+
+                <div>
+                    <span>Member since</span>
+                    <strong>{{ user.date_joined|date:"d M Y" }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-8">
+        <div class="fc-dashboard-panel">
+            <div class="fc-dashboard-panel-header">
+                <div>
+                    <h3>Personal information</h3>
+                    <p>Update the information associated with your account.</p>
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="fc-profile-form">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="fc-auth-error mb-3">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <div>
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="{{ form.first_name.id_for_label }}" class="fc-form-label">
+                            First name
+                        </label>
+                        {{ form.first_name }}
+                        {% for error in form.first_name.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="{{ form.last_name.id_for_label }}" class="fc-form-label">
+                            Last name
+                        </label>
+                        {{ form.last_name }}
+                        {% for error in form.last_name.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <label for="{{ form.email.id_for_label }}" class="fc-form-label">
+                            Email address
+                        </label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <label for="{{ form.phone_number.id_for_label }}" class="fc-form-label">
+                            Phone number
+                        </label>
+                        {{ form.phone_number }}
+                        {% for error in form.phone_number.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-12">
+                        <label for="{{ form.avatar.id_for_label }}" class="fc-form-label">
+                            Profile photo
+                        </label>
+                        {{ form.avatar }}
+                        {% for error in form.avatar.errors %}
+                            <div class="fc-form-error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="fc-profile-form-footer">
+                    <a href="{% url 'accounts:password_change' %}" class="btn btn-outline-primary fc-btn">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        Change password
+                    </a>
+
+                    <button type="submit" class="btn btn-primary fc-btn">
+                        <i class="bi bi-check2 me-1"></i>
+                        Save changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -53,7 +53,10 @@
         </div>
 
         <nav class="fc-dashboard-nav">
-            <a href="#">
+            <a
+                href="{% url 'accounts:profile' %}"
+                class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}"
+            >
                 <i class="bi bi-person"></i>
                 <span>Profile</span>
             </a>
