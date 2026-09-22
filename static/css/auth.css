@@ -265,3 +265,65 @@
         flex-direction: column;
     }
 }
+
+/* Password change form */
+
+.fc-auth-card form input[type="password"] {
+width: 100%;
+min-height: 44px;
+padding: .65rem .8rem;
+background: var(--fc-surface);
+border: 1px solid var(--fc-border-strong);
+border-radius: var(--fc-radius-sm);
+color: var(--fc-text);
+font-family: inherit;
+font-size: .84rem;
+outline: none;
+transition:
+border-color var(--fc-transition),
+box-shadow var(--fc-transition),
+background var(--fc-transition);
+}
+
+.fc-auth-card form input[type="password"]:focus {
+border-color: var(--fc-primary);
+box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
+.fc-auth-card form label {
+display: block;
+margin-bottom: .45rem;
+color: var(--fc-text);
+font-size: .78rem;
+font-weight: 700;
+}
+
+.fc-auth-card form .helptext,
+.fc-auth-card form ul.helptext {
+margin-top: .45rem;
+margin-bottom: 0;
+padding-left: 1rem;
+color: var(--fc-text-muted);
+font-size: .68rem;
+line-height: 1.6;
+}
+
+.fc-auth-card form ul.helptext li {
+margin-bottom: .15rem;
+}
+
+.fc-auth-card form ul.errorlist {
+margin: .4rem 0 0;
+padding: 0;
+list-style: none;
+color: var(--fc-danger);
+font-size: .72rem;
+}
+
+.fc-auth-card form p {
+margin-bottom: 1rem;
+}
+
+.fc-auth-card form p:last-of-type {
+margin-bottom: 0;
+}
