@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
 from .models import User
 
 
 class RegisterForm(UserCreationForm):
+
     class Meta:
         model = User
         fields = (
@@ -53,6 +53,21 @@ class RegisterForm(UserCreationForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["password1"].widget.attrs.update({
+            "class": "form-control fc-form-control",
+            "placeholder": "Create a password",
+            "autocomplete": "new-password",
+        })
+
+        self.fields["password2"].widget.attrs.update({
+            "class": "form-control fc-form-control",
+            "placeholder": "Confirm your password",
+            "autocomplete": "new-password",
+        })
 
     def clean_username(self):
         username = self.cleaned_data["username"].strip().lower()
