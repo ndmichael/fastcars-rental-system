@@ -4,7 +4,15 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 
+from django.contrib.auth.decorators import login_required
+
 from .forms import LoginForm, RegisterForm
+
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count, Q
+from django.utils import timezone
+
+from bookings.models import Booking
 
 
 class CustomLoginView(LoginView):
@@ -53,5 +61,48 @@ def register_view(request):
         {
             "form": form,
             "next": next_url or "",
+        },
+    )
+
+
+
+@login_required
+def dashboard_view(request):
+    if request.user.role != "customer":
+        return redirect("pages:home")
+
+    bookings = (
+        Booking.objects
+        .filter(customer=request.user)
+        .select_related("vehicle")
+        .order_by("-created_at")
+    )
+
+    stats = bookings.aggregate(
+        total=Count("id"),
+        pending=Count("id", filter=Q(status="pending")),
+        confirmed=Count("id", filter=Q(status="confirmed")),
+        completed=Count("id", filter=Q(status="completed")),
+    )
+
+    upcoming_booking = (
+        bookings
+        .filter(
+            status="confirmed",
+            pickup_date__gte=timezone.localdate(),
+        )
+        .order_by("pickup_date")
+        .first()
+    )
+
+    return render(
+        request,
+        "customer/dashboard.html",
+        {
+            "page_title": "Dashboard",
+            "portal_label": "Customer Portal",
+            "stats": stats,
+            "recent_bookings": bookings[:5],
+            "upcoming_booking": upcoming_booking,
         },
     )

@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import CustomLoginView, register_view
+from .views import CustomLoginView, register_view, dashboard_view
 
 
 app_name = "accounts"
@@ -75,4 +75,5 @@ urlpatterns = [
         ),
         name="password_change_done",
     ),
+    path("dashboard/", dashboard_view, name="dashboard"),
 ]
