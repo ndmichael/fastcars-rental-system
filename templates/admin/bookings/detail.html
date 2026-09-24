@@ -1,0 +1,330 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}{{ booking.reference }} | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header">
+
+    <div>
+        <p class="fc-dashboard-section-label">Booking Management</p>
+
+        <h1 class="fc-page-title">
+            {{ booking.reference }}
+        </h1>
+
+        <p class="fc-page-description">
+            Review the booking details and customer rental information.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'admin_portal:booking_list' %}"
+        class="btn fc-btn-ghost"
+    >
+        <i class="bi bi-arrow-left"></i>
+        Back to bookings
+    </a>
+
+</div>
+
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+
+        <div class="fc-dashboard-panel">
+
+            <div class="fc-dashboard-panel-header">
+
+                <div>
+                    <h2>Booking details</h2>
+                    <p>
+                        Booking submitted
+                        {{ booking.created_at|date:"M d, Y · h:i A" }}.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="fc-form-section">
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Customer
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.customer.get_full_name|default:booking.customer.username }}
+                        </div>
+
+                        <div class="fc-table-muted">
+                            {{ booking.customer.email }}
+                        </div>
+
+                        {% if booking.customer.phone_number %}
+                            <div class="fc-table-muted">
+                                {{ booking.customer.phone_number }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Vehicle
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.vehicle.brand.name }}
+                            {{ booking.vehicle.model_name }}
+                        </div>
+
+                        <div class="fc-table-muted">
+                            {{ booking.vehicle.year }}
+                            · {{ booking.vehicle.get_category_display }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Pick-up date
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.pickup_date|date:"F d, Y" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Return date
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.return_date|date:"F d, Y" }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <span class="fc-detail-label">
+                            Rental days
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.rental_days }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <span class="fc-detail-label">
+                            Rate per day
+                        </span>
+
+                        <div class="fc-detail-value">
+                            ₦{{ booking.rate_per_day|floatformat:2 }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <span class="fc-detail-label">
+                            Total amount
+                        </span>
+
+                        <div class="fc-detail-value">
+                            ₦{{ booking.total_amount|floatformat:2 }}
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Booking status
+                        </span>
+
+                        <div class="mt-2">
+                            <span class="fc-status fc-status-{{ booking.status }}">
+                                {{ booking.get_status_display }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <span class="fc-detail-label">
+                            Booking reference
+                        </span>
+
+                        <div class="fc-detail-value">
+                            {{ booking.reference }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-4">
+
+        <div class="fc-dashboard-panel">
+
+            <div class="fc-dashboard-panel-header">
+
+                <div>
+                    <h2>Booking actions</h2>
+                    <p>
+                        Manage the current booking status.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="fc-form-section">
+
+            {% if booking.status == "pending" %}
+
+                <div class="fc-form-actions">
+
+                    <form
+                        method="post"
+                        action="{% url 'admin_portal:booking_confirm' booking.reference %}"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn fc-btn-primary"
+                        >
+                            <i class="bi bi-check2-circle"></i>
+                            Confirm booking
+                        </button>
+                    </form>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'admin_portal:booking_cancel' booking.reference %}"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn fc-btn-ghost"
+                        >
+                            <i class="bi bi-x-circle"></i>
+                            Cancel booking
+                        </button>
+                    </form>
+
+                </div>
+
+
+            {% elif booking.status == "confirmed" %}
+
+                <div class="fc-form-actions">
+
+                    <form
+                        method="post"
+                        action="{% url 'admin_portal:booking_activate' booking.reference %}"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn fc-btn-primary"
+                        >
+                            <i class="bi bi-play-circle"></i>
+                            Mark active
+                        </button>
+                    </form>
+
+
+                    <form
+                        method="post"
+                        action="{% url 'admin_portal:booking_cancel' booking.reference %}"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn fc-btn-ghost"
+                        >
+                            <i class="bi bi-x-circle"></i>
+                            Cancel booking
+                        </button>
+                    </form>
+
+                </div>
+
+
+            {% elif booking.status == "active" %}
+
+                    <div class="fc-form-actions">
+
+                        <form
+                            method="post"
+                            action="{% url 'admin_portal:booking_complete' booking.reference %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn fc-btn-primary"
+                            >
+                                <i class="bi bi-check2-circle"></i>
+                                Mark completed
+                            </button>
+                        </form>
+
+                    </div>
+
+
+                {% else %}
+
+                    <p class="fc-text-muted mb-0">
+                        This booking has no available actions.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,253 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Bookings | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header">
+
+    <div>
+        <p class="fc-dashboard-section-label">Booking Management</p>
+
+        <h1 class="fc-page-title">Bookings</h1>
+
+        <p class="fc-page-description">
+            Review and manage customer vehicle bookings.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Customer bookings</h2>
+            <p>
+                Search, filter and manage booking requests.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- Filters -->
+
+    <div class="fc-admin-toolbar">
+
+        <form method="get" class="fc-admin-search">
+
+            <div class="fc-search-wrapper">
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ query }}"
+                    class="fc-form-control"
+                    placeholder="Search by reference, customer or vehicle..."
+                    aria-label="Search bookings"
+                >
+            </div>
+
+
+            <select
+                name="status"
+                class="fc-form-control fc-filter-select"
+                aria-label="Filter by status"
+            >
+                <option value="">All statuses</option>
+
+                {% for value, label in status_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if status == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+
+            <button
+                type="submit"
+                class="btn fc-btn-secondary"
+            >
+                Search
+            </button>
+
+
+            {% if query or status %}
+                <a
+                    href="{% url 'admin_portal:booking_list' %}"
+                    class="btn fc-btn-ghost"
+                >
+                    Clear
+                </a>
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    {% if bookings %}
+
+        <div class="table-responsive">
+
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Booking</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Rental Period</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                        <tr>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ booking.reference }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ booking.created_at|date:"M d, Y" }}
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ booking.customer.get_full_name|default:booking.customer.username }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ booking.customer.email }}
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ booking.vehicle.brand.name }}
+                                    {{ booking.vehicle.model_name }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ booking.vehicle.year }}
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ booking.pickup_date|date:"M d, Y" }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ booking.return_date|date:"M d, Y" }}
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    ₦{{ booking.total_amount|floatformat:2 }}
+                                </strong>
+
+                                <div class="fc-table-muted">
+                                    {{ booking.rental_days }}
+                                    day{{ booking.rental_days|pluralize }}
+                                </div>
+                            </td>
+
+
+                            <td>
+
+                                <span class="fc-status fc-status-{{ booking.status }}">
+                                    {{ booking.get_status_display }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                <div class="fc-table-actions justify-content-end">
+
+                                    <a
+                                        href="{% url 'admin_portal:booking_detail' booking.reference %}"
+                                        class="fc-table-action"
+                                        title="View booking"
+                                        aria-label="View {{ booking.reference }}"
+                                    >
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-calendar-x"></i>
+            </div>
+
+            {% if query or status %}
+
+                <h3>No bookings found</h3>
+
+                <p>
+                    No bookings match your current search or filter.
+                </p>
+
+                <a
+                    href="{% url 'admin_portal:booking_list' %}"
+                    class="btn fc-btn-secondary"
+                >
+                    Clear filters
+                </a>
+
+            {% else %}
+
+                <h3>No bookings yet</h3>
+
+                <p>
+                    Customer booking requests will appear here.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
