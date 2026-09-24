@@ -5,8 +5,16 @@ app_name = "bookings"
 
 urlpatterns = [
     path("my-bookings/", views.my_bookings, name="my_bookings"),
-    path("check-availability/", views.check_availability, name="check_availability"),
-    path("create/", views.create_booking, name="create_booking"),
+    path(
+        "check-availability/<int:vehicle_id>/",
+        views.check_availability,
+        name="check_availability",
+    ),
+    path(
+        "create/<int:vehicle_id>/",
+        views.create_booking,
+        name="create_booking",
+    ),
     path("confirmation/<str:reference>/", views.booking_confirmation, name="booking_confirmation"),
     path(
         "my-bookings/<str:reference>/",

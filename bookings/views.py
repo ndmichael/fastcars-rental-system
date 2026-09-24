@@ -10,8 +10,28 @@ from .models import Booking
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 
+from django.contrib import messages
+
 
 def check_availability(request, vehicle_id):
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {
+                "available": False,
+                "message": "Please log in as a customer to check vehicle availability.",
+            },
+            status=403,
+        )
+
+    if request.user.role != "customer":
+        return JsonResponse(
+            {
+                "available": False,
+                "message": "Only customer accounts can check vehicle availability.",
+            },
+            status=403,
+        )
+    
     if request.method != "GET":
         return JsonResponse(
             {"message": "GET request required."},
@@ -61,6 +81,13 @@ def check_availability(request, vehicle_id):
 
 @login_required
 def create_booking(request, vehicle_id):
+    if request.user.role != "customer":
+        messages.warning(
+            request,
+            "Only customer accounts can make vehicle bookings."
+        )
+        return redirect("admin_portal:dashboard")
+    
     vehicle = get_object_or_404(
         Vehicle,
         pk=vehicle_id,
@@ -81,8 +108,8 @@ def create_booking(request, vehicle_id):
         booking.save()
 
         return redirect(
-            "bookings:confirmation",
-            pk=booking.pk,
+            "bookings:booking_confirmation",
+            reference=booking.reference,
         )
 
     return render(
@@ -97,14 +124,14 @@ def create_booking(request, vehicle_id):
 
 
 @login_required
-def booking_confirmation(request, pk):
+def booking_confirmation(request, reference):
     booking = get_object_or_404(
         Booking.objects.select_related(
             "vehicle",
             "vehicle__brand",
             "customer",
         ),
-        pk=pk,
+        reference=reference,
         customer=request.user,
     )
 
