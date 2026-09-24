@@ -132,7 +132,7 @@
                     <form
                         id="bookingForm"
                         method="post"
-                        action="{% url 'bookings:create' vehicle.pk %}"
+                        action="{% url 'bookings:create_booking' vehicle.pk %}"
                         data-availability-url="{% url 'bookings:check_availability' vehicle.pk %}"
                     >
 
