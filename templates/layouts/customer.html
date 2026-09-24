@@ -8,16 +8,19 @@
 
 {% block content %}
 <div class="fc-dashboard-shell">
+
     {% include "components/customer_sidebar.html" %}
 
     <div class="fc-dashboard-main">
-        {% include "components/dashboard_topbar.html" %}
+
+        {% include "components/dashboard_topbar.html" with sidebar_id="customerSidebar" %}
 
         <section class="fc-dashboard-content">
             <div class="container-fluid">
                 {% block customer_content %}{% endblock %}
             </div>
         </section>
+
     </div>
 </div>
 {% endblock %}
