@@ -1,0 +1,495 @@
+/* =========================================================
+   FAST CARS — Admin Dashboard
+   ========================================================= */
+
+.fc-admin-shell .fc-dashboard-section-label {
+    color: var(--fc-accent);
+}
+
+.fc-admin-stat::after {
+    background: var(--fc-primary);
+}
+
+/* Admin statistic icon colours */
+
+.fc-admin-icon-blue {
+    background: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.12);
+    color: #2563eb;
+}
+
+.fc-admin-icon-purple {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.12);
+    color: #8b5cf6;
+}
+
+.fc-admin-icon-amber {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.12);
+    color: #d97706;
+}
+
+.fc-admin-icon-green {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+/* Quick actions */
+
+.fc-admin-quick-action {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: var(--fc-surface);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+    box-shadow: var(--fc-shadow-sm);
+    color: var(--fc-text);
+    text-decoration: none;
+}
+
+.fc-admin-quick-action:hover {
+    background: rgba(37, 99, 235, 0.035);
+    border-color: rgba(37, 99, 235, 0.2);
+    box-shadow: var(--fc-shadow-md);
+    color: var(--fc-text);
+}
+
+.fc-admin-quick-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+.fc-admin-quick-action strong,
+.fc-admin-quick-action small {
+    display: block;
+}
+
+.fc-admin-quick-action strong {
+    color: var(--fc-text);
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.fc-admin-quick-action small {
+    margin-top: 0.18rem;
+    color: var(--fc-text-muted);
+    font-size: 0.68rem;
+}
+
+.fc-admin-quick-action > i {
+    margin-left: auto;
+    color: var(--fc-primary);
+    font-size: 0.85rem;
+}
+
+/* Recent bookings */
+
+.fc-admin-bookings-table > :not(caption) > * > * {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+.fc-admin-reference {
+    color: var(--fc-primary);
+    font-size: 0.72rem;
+}
+
+.fc-admin-customer {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 190px;
+}
+
+.fc-admin-customer-avatar {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--fc-primary);
+    font-size: 0.68rem;
+    font-weight: 800;
+}
+
+.fc-admin-customer strong,
+.fc-admin-customer small {
+    display: block;
+}
+
+.fc-admin-customer strong {
+    max-width: 150px;
+    overflow: hidden;
+    color: var(--fc-text);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fc-admin-customer small {
+    max-width: 170px;
+    overflow: hidden;
+    margin-top: 0.12rem;
+    color: var(--fc-text-muted);
+    font-size: 0.63rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fc-admin-vehicle {
+    color: var(--fc-text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.fc-admin-amount {
+    color: var(--fc-text);
+    font-size: 0.74rem;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   Admin Pages
+   ========================================================= */
+
+.fc-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.fc-page-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.fc-page-description {
+    margin: 0.5rem 0 0;
+    color: var(--fc-text-muted);
+}
+
+.fc-admin-toolbar {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--fc-border);
+}
+
+.fc-admin-search {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: 650px;
+}
+
+.fc-admin-search .fc-btn-secondary {
+    min-height: 44px;
+    padding: 0.65rem 1.1rem;
+    border: 1px solid var(--fc-border);
+    border-radius: 0.6rem;
+    background: var(--fc-surface);
+    color: var(--fc-text);
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.fc-admin-search .fc-btn-secondary:hover {
+    background: var(--fc-surface-muted);
+    border-color: var(--fc-border-strong);
+}
+
+.fc-search-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.fc-search-wrapper > i {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    color: var(--fc-text-muted);
+    pointer-events: none;
+}
+
+.fc-search-wrapper .fc-form-control {
+    padding-left: 2.75rem;
+}
+
+
+
+.fc-table-primary {
+    font-weight: 700;
+}
+
+.fc-table-muted {
+    color: var(--fc-text-muted);
+    font-size: 0.9rem;
+}
+
+.fc-table-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.6rem;
+    border-radius: 0.5rem;
+    background: var(--fc-surface-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.fc-table-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.fc-table-action {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: var(--fc-text-muted);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.fc-table-action:hover {
+    background: var(--fc-surface-muted);
+    color: var(--fc-text);
+}
+
+.fc-table-action-danger:hover {
+    color: #dc3545;
+}
+
+.fc-table-action-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.fc-form-section {
+    padding: 1.5rem;
+}
+
+.fc-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--fc-border);
+}
+
+.fc-form-error {
+    margin-top: 0.4rem;
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+
+.fc-vehicle-thumb {
+    width: 64px;
+    height: 48px;
+    flex: 0 0 64px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.fc-vehicle-thumb-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fc-surface-muted);
+    color: var(--fc-text-muted);
+    font-size: 1.2rem;
+}
+
+.fc-filter-select {
+    width: auto;
+    min-width: 150px;
+    min-height: 44px;
+}
+
+
+/* =========================================================
+   Vehicle Form
+   ========================================================= */
+
+.fc-form-section {
+    padding: 1.5rem;
+}
+
+.fc-form-group {
+    margin-bottom: 0;
+}
+
+.fc-form-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--fc-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.fc-form-control {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--fc-border);
+    border-radius: 0.6rem;
+    background: var(--fc-surface);
+    color: var(--fc-text);
+    font-size: 0.82rem;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.fc-form-control::placeholder {
+    color: var(--fc-text-muted);
+}
+
+.fc-form-control:focus {
+    border-color: var(--fc-primary);
+    outline: none;
+    background: var(--fc-surface);
+    color: var(--fc-text);
+    box-shadow: 0 0 0 3px var(--fc-primary-soft);
+}
+
+textarea.fc-form-control {
+    min-height: 130px;
+    resize: vertical;
+}
+
+select.fc-form-control {
+    cursor: pointer;
+}
+
+.form-text {
+    margin-top: 0.4rem;
+    color: var(--fc-text-muted);
+    font-size: 0.7rem;
+}
+
+
+/* Form validation */
+
+.fc-form-error {
+    margin-top: 0.4rem;
+    color: #dc3545;
+    font-size: 0.75rem;
+}
+
+.fc-form-error span {
+    display: block;
+}
+
+
+/* Form-wide alert */
+
+.fc-form-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid;
+    border-radius: 0.6rem;
+    font-size: 0.8rem;
+}
+
+.fc-form-alert p {
+    margin: 0;
+}
+
+.fc-form-alert-danger {
+    border-color: rgba(220, 53, 69, 0.2);
+    background: rgba(220, 53, 69, 0.06);
+    color: #dc3545;
+}
+
+.fc-form-alert > i {
+    margin-top: 0.1rem;
+}
+
+
+/* Form action buttons */
+
+.fc-form-actions .fc-btn-primary,
+.fc-form-actions .fc-btn-secondary {
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+}
+
+.fc-form-actions .fc-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+}
+
+
+/* Mobile */
+
+@media (max-width: 767.98px) {
+    .fc-form-section {
+        padding: 1.25rem;
+    }
+
+    .fc-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .fc-form-actions .fc-btn-primary,
+    .fc-form-actions .fc-btn-secondary {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+    .fc-page-header {
+        flex-direction: column;
+    }
+
+    .fc-admin-search {
+        flex-wrap: wrap;
+    }
+
+    .fc-admin-search .fc-search-wrapper {
+        flex-basis: 100%;
+    }
+
+    .fc-admin-quick-action {
+        min-height: 72px;
+    }
+}
