@@ -1,0 +1,214 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Admin Dashboard | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-dashboard-welcome">
+    <div>
+        <p class="fc-dashboard-section-label">Administration</p>
+        <h2>
+            Welcome back, {{ user.first_name|default:user.username }}
+        </h2>
+        <p>
+            Here's an overview of your FAST CARS platform.
+        </p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat fc-admin-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Customers</span>
+                <span class="fc-dashboard-stat-icon fc-admin-icon-blue">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+            </div>
+
+            <strong>{{ stats.customers }}</strong>
+            <small>Registered customers</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat fc-admin-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Vehicles</span>
+                <span class="fc-dashboard-stat-icon fc-admin-icon-purple">
+                    <i class="bi bi-car-front-fill"></i>
+                </span>
+            </div>
+
+            <strong>{{ stats.vehicles }}</strong>
+            <small>{{ stats.available_vehicles }} currently available</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat fc-admin-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Pending bookings</span>
+                <span class="fc-dashboard-stat-icon fc-admin-icon-amber">
+                    <i class="bi bi-hourglass-split"></i>
+                </span>
+            </div>
+
+            <strong>{{ stats.pending_bookings }}</strong>
+            <small>Awaiting confirmation</small>
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-xl-3">
+        <div class="fc-dashboard-stat fc-admin-stat">
+            <div class="fc-dashboard-stat-top">
+                <span>Confirmed</span>
+                <span class="fc-dashboard-stat-icon fc-admin-icon-green">
+                    <i class="bi bi-check2-circle"></i>
+                </span>
+            </div>
+
+            <strong>{{ stats.confirmed_bookings }}</strong>
+            <small>{{ stats.completed_bookings }} completed bookings</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-4">
+        <a href="#" class="fc-admin-quick-action">
+            <span class="fc-admin-quick-icon fc-admin-icon-blue">
+                <i class="bi bi-plus-lg"></i>
+            </span>
+
+            <span>
+                <strong>Add vehicle</strong>
+                <small>Add a new rental vehicle</small>
+            </span>
+
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <a href="#" class="fc-admin-quick-action">
+            <span class="fc-admin-quick-icon fc-admin-icon-amber">
+                <i class="bi bi-calendar-check"></i>
+            </span>
+
+            <span>
+                <strong>Manage bookings</strong>
+                <small>Review customer requests</small>
+            </span>
+
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+
+    <div class="col-12 col-md-4">
+        <a href="#" class="fc-admin-quick-action">
+            <span class="fc-admin-quick-icon fc-admin-icon-purple">
+                <i class="bi bi-people"></i>
+            </span>
+
+            <span>
+                <strong>View customers</strong>
+                <small>Manage registered users</small>
+            </span>
+
+            <i class="bi bi-arrow-up-right ms-auto"></i>
+        </a>
+    </div>
+</div>
+
+<div class="fc-dashboard-panel">
+    <div class="fc-dashboard-panel-header">
+        <div>
+            <h3>Recent bookings</h3>
+            <p>The latest booking activity across FAST CARS.</p>
+        </div>
+
+        <a href="#" class="fc-dashboard-panel-link">
+            View all
+        </a>
+    </div>
+
+    {% if recent_bookings %}
+        <div class="table-responsive">
+            <table class="table fc-dashboard-table fc-admin-bookings-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Customer</th>
+                        <th>Vehicle</th>
+                        <th>Pickup</th>
+                        <th>Status</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for booking in recent_bookings %}
+                        <tr>
+                            <td>
+                                <strong class="fc-admin-reference">
+                                    {{ booking.reference }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                <div class="fc-admin-customer">
+                                    <span class="fc-admin-customer-avatar">
+                                        {{ booking.customer.first_name|first|default:booking.customer.username|first|upper }}
+                                    </span>
+
+                                    <span>
+                                        <strong>
+                                            {{ booking.customer.get_full_name|default:booking.customer.username }}
+                                        </strong>
+                                        <small>{{ booking.customer.email }}</small>
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-admin-vehicle">
+                                    {{ booking.vehicle }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ booking.pickup_date|date:"d M Y" }}
+                            </td>
+
+                            <td>
+                                <span class="fc-status fc-status-{{ booking.status }}">
+                                    {{ booking.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td class="text-end">
+                                <strong class="fc-admin-amount">
+                                    ₦{{ booking.total_amount|floatformat:0 }}
+                                </strong>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="fc-dashboard-empty">
+            <span>
+                <i class="bi bi-calendar2-x"></i>
+            </span>
+
+            <h4>No bookings yet</h4>
+            <p>
+                Customer bookings will appear here once reservations are submitted.
+            </p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

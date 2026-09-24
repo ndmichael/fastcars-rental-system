@@ -17,6 +17,10 @@ from bookings.models import Booking
 from django.contrib import messages
 from .forms import ProfileForm
 
+from .models import User
+from bookings.models import Booking
+from vehicles.models import Vehicle
+
 
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
@@ -136,5 +140,40 @@ def profile_view(request):
             "form": form,
             "page_title": "Profile",
             "portal_label": "Customer Portal",
+        },
+    )
+
+
+
+@login_required
+def admin_dashboard(request):
+    if request.user.role != "admin":
+        return redirect("pages:home")
+
+    customers = User.objects.filter(role="customer")
+
+    stats = {
+        "customers": customers.count(),
+        "vehicles": Vehicle.objects.count(),
+        "available_vehicles": Vehicle.objects.filter(status="available").count(),
+        "pending_bookings": Booking.objects.filter(status="pending").count(),
+        "confirmed_bookings": Booking.objects.filter(status="confirmed").count(),
+        "completed_bookings": Booking.objects.filter(status="completed").count(),
+    }
+
+    recent_bookings = (
+        Booking.objects
+        .select_related("customer", "vehicle")
+        .order_by("-created_at")[:8]
+    )
+
+    return render(
+        request,
+        "admin/dashboard.html",
+        {
+            "page_title": "Dashboard",
+            "portal_label": "Admin Portal",
+            "stats": stats,
+            "recent_bookings": recent_bookings,
         },
     )
