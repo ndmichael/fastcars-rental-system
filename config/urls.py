@@ -10,6 +10,8 @@ urlpatterns = [
     path("vehicles/", include("vehicles.urls")),
     path("bookings/", include("bookings.urls")),
     path("accounts/", include("accounts.urls")),
+    path("admin-panel/", include("accounts.admin_urls")),
+
     
 ]
 

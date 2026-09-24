@@ -1,0 +1,118 @@
+<aside
+    class="offcanvas-lg offcanvas-start fc-dashboard-sidebar fc-admin-sidebar"
+    tabindex="-1"
+    id="adminSidebar"
+    aria-labelledby="adminSidebarLabel"
+>
+    <div class="offcanvas-header fc-dashboard-sidebar-header">
+        <a href="{% url 'admin_portal:dashboard' %}" class="fc-brand" aria-label="FAST CARS admin dashboard">
+            <span class="fc-brand-icon">
+                <i class="bi bi-car-front-fill"></i>
+            </span>
+            FAST<span>CARS</span>
+        </a>
+
+        <button
+            type="button"
+            class="btn-close d-lg-none"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close navigation"
+        ></button>
+    </div>
+
+    <div class="offcanvas-body d-flex flex-column p-0">
+        <div class="fc-dashboard-sidebar-label">
+            Overview
+        </div>
+
+        <nav class="fc-dashboard-nav">
+            <a
+                href="{% url 'admin_portal:dashboard' %}"
+                class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}"
+            >
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+
+        <div class="fc-dashboard-sidebar-label">
+            Management
+        </div>
+
+        <nav class="fc-dashboard-nav">
+            <a
+                href="{% url 'admin_portal:brand_list' %}"
+                class="{% if request.resolver_match.url_name == 'brand_list' or request.resolver_match.url_name == 'brand_create' or request.resolver_match.url_name == 'brand_edit' %}active{% endif %}"
+            >
+                <i class="bi bi-tags"></i>
+                <span>Brands</span>
+            </a>
+
+            <a
+                href="{% url 'admin_portal:vehicle_list' %}"
+                class="{% if request.resolver_match.url_name == 'vehicle_list' or request.resolver_match.url_name == 'vehicle_create' or request.resolver_match.url_name == 'vehicle_edit' %}active{% endif %}"
+            >
+                <i class="bi bi-car-front"></i>
+                <span>Vehicles</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-calendar-check"></i>
+                <span>Bookings</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-chat-square-quote"></i>
+                <span>Testimonials</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-envelope"></i>
+                <span>Enquiries</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-people"></i>
+                <span>Customers</span>
+            </a>
+        </nav>
+
+        <div class="fc-dashboard-sidebar-label">
+            Website
+        </div>
+
+        <nav class="fc-dashboard-nav">
+            <a href="#">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Page Content</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-telephone"></i>
+                <span>Contact Details</span>
+            </a>
+
+            <a href="#">
+                <i class="bi bi-send"></i>
+                <span>Subscribers</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto">
+            <div class="fc-dashboard-sidebar-divider"></div>
+
+            <a href="{% url 'pages:home' %}" class="fc-dashboard-nav-link">
+                <i class="bi bi-arrow-left"></i>
+                <span>View website</span>
+            </a>
+
+            <form method="post" action="{% url 'accounts:logout' %}" class="mt-1">
+                {% csrf_token %}
+                <button type="submit" class="fc-dashboard-nav-link fc-dashboard-logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</aside>
