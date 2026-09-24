@@ -1,0 +1,191 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Brands | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header">
+    <div>
+        <p class="fc-dashboard-section-label">Fleet Management</p>
+        <h1 class="fc-page-title">Brands</h1>
+        <p class="fc-page-description">
+            Manage the vehicle manufacturers available in your fleet.
+        </p>
+    </div>
+
+    <a href="{% url 'admin_portal:brand_create' %}" class="btn fc-btn-primary">
+        <i class="bi bi-plus-lg"></i>
+        Add brand
+    </a>
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+        <div>
+            <h2>Vehicle brands</h2>
+            <p>View and manage your registered vehicle manufacturers.</p>
+        </div>
+    </div>
+
+    <div class="fc-admin-toolbar">
+
+        <form method="get" class="fc-admin-search">
+            <div class="fc-search-wrapper">
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ query }}"
+                    class="fc-form-control"
+                    placeholder="Search brands..."
+                    aria-label="Search brands"
+                >
+            </div>
+
+            <button type="submit" class="btn fc-btn-secondary">
+                Search
+            </button>
+
+            {% if query %}
+                <a
+                    href="{% url 'admin_portal:brand_list' %}"
+                    class="btn fc-btn-ghost"
+                >
+                    Clear
+                </a>
+            {% endif %}
+        </form>
+
+    </div>
+
+
+    {% if brands %}
+
+        <div class="table-responsive">
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Vehicles</th>
+                        <th>Created</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for brand in brands %}
+                        <tr>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ brand.name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-count">
+                                    {{ brand.vehicle_count }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ brand.created_at|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="fc-table-actions justify-content-end">
+
+                                    <a
+                                        href="{% url 'admin_portal:brand_edit' brand.pk %}"
+                                        class="fc-table-action"
+                                        title="Edit brand"
+                                        aria-label="Edit {{ brand.name }}"
+                                    >
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    {% if brand.vehicle_count == 0 %}
+                                        <form
+                                            method="post"
+                                            action="{% url 'admin_portal:brand_delete' brand.pk %}"
+                                            onsubmit="return confirm('Delete {{ brand.name }}? This action cannot be undone.');"
+                                        >
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="fc-table-action fc-table-action-danger"
+                                                title="Delete brand"
+                                                aria-label="Delete {{ brand.name }}"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <span
+                                            class="fc-table-action fc-table-action-disabled"
+                                            title="Cannot delete a brand with vehicles"
+                                            aria-label="Cannot delete {{ brand.name }}"
+                                        >
+                                            <i class="bi bi-lock"></i>
+                                        </span>
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-tags"></i>
+            </div>
+
+            {% if query %}
+                <h3>No brands found</h3>
+                <p>
+                    No brands matched "{{ query }}".
+                </p>
+
+                <a
+                    href="{% url 'admin_portal:brand_list' %}"
+                    class="btn fc-btn-secondary"
+                >
+                    Clear search
+                </a>
+            {% else %}
+                <h3>No brands yet</h3>
+                <p>
+                    Add your first vehicle brand to start building your fleet.
+                </p>
+
+                <a
+                    href="{% url 'admin_portal:brand_create' %}"
+                    class="btn fc-btn-primary"
+                >
+                    <i class="bi bi-plus-lg"></i>
+                    Add first brand
+                </a>
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

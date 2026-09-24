@@ -1,0 +1,278 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Vehicles | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header">
+
+    <div>
+        <p class="fc-dashboard-section-label">Fleet Management</p>
+
+        <h1 class="fc-page-title">Vehicles</h1>
+
+        <p class="fc-page-description">
+            Manage the vehicles available in your FAST CARS fleet.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'admin_portal:vehicle_create' %}"
+        class="btn fc-btn-primary"
+    >
+        <i class="bi bi-plus-lg"></i>
+        Add vehicle
+    </a>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Fleet vehicles</h2>
+            <p>
+                Search, filter and manage your registered vehicles.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- Filters -->
+
+    <div class="fc-admin-toolbar">
+
+        <form method="get" class="fc-admin-search">
+
+            <div class="fc-search-wrapper">
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="search"
+                    name="q"
+                    value="{{ query }}"
+                    class="fc-form-control"
+                    placeholder="Search by brand or model..."
+                    aria-label="Search vehicles"
+                >
+            </div>
+
+
+            <select
+                name="status"
+                class="fc-form-control fc-filter-select"
+                aria-label="Filter by status"
+            >
+                <option value="">All statuses</option>
+
+                {% for value, label in status_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if status == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+
+            <select
+                name="category"
+                class="fc-form-control fc-filter-select"
+                aria-label="Filter by category"
+            >
+                <option value="">All categories</option>
+
+                {% for value, label in category_choices %}
+                    <option
+                        value="{{ value }}"
+                        {% if category == value %}selected{% endif %}
+                    >
+                        {{ label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+
+            <button
+                type="submit"
+                class="btn fc-btn-secondary"
+            >
+                Search
+            </button>
+
+
+            {% if query or status or category %}
+                <a
+                    href="{% url 'admin_portal:vehicle_list' %}"
+                    class="btn fc-btn-ghost"
+                >
+                    Clear
+                </a>
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    {% if vehicles %}
+
+        <div class="table-responsive">
+
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Category</th>
+                        <th>Rate / day</th>
+                        <th>Status</th>
+                        <th>Added</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    {% for vehicle in vehicles %}
+
+                        <tr>
+
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+
+                                    {% if vehicle.primary_image %}
+                                        <img
+                                            src="{{ vehicle.primary_image.url }}"
+                                            alt="{{ vehicle }}"
+                                            class="fc-vehicle-thumb"
+                                        >
+                                    {% else %}
+                                        <div class="fc-vehicle-thumb fc-vehicle-thumb-placeholder">
+                                            <i class="bi bi-car-front"></i>
+                                        </div>
+                                    {% endif %}
+
+                                    <div>
+                                        <div class="fc-table-primary">
+                                            {{ vehicle.brand.name }}
+                                            {{ vehicle.model_name }}
+                                        </div>
+
+                                        <div class="fc-table-muted">
+                                            {{ vehicle.year }}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+
+
+                            <td>
+                                {{ vehicle.get_category_display }}
+                            </td>
+
+
+                            <td>
+                                <strong>
+                                    ₦{{ vehicle.daily_rate|floatformat:2 }}
+                                </strong>
+                            </td>
+
+
+                            <td>
+
+                                <span class="fc-status fc-status-{{ vehicle.status }}">
+                                    {{ vehicle.get_status_display }}
+                                </span>
+
+                            </td>
+
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ vehicle.created_at|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+
+                            <td>
+
+                                <div class="fc-table-actions justify-content-end">
+
+                                    <a
+                                        href="{% url 'admin_portal:vehicle_edit' vehicle.pk %}"
+                                        class="fc-table-action"
+                                        title="Edit vehicle"
+                                        aria-label="Edit {{ vehicle }}"
+                                    >
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-car-front"></i>
+            </div>
+
+            {% if query or status or category %}
+
+                <h3>No vehicles found</h3>
+
+                <p>
+                    No vehicles match your current search or filters.
+                </p>
+
+                <a
+                    href="{% url 'admin_portal:vehicle_list' %}"
+                    class="btn fc-btn-secondary"
+                >
+                    Clear filters
+                </a>
+
+            {% else %}
+
+                <h3>No vehicles yet</h3>
+
+                <p>
+                    Add your first vehicle to start building your fleet.
+                </p>
+
+                <a
+                    href="{% url 'admin_portal:vehicle_create' %}"
+                    class="btn fc-btn-primary"
+                >
+                    <i class="bi bi-plus-lg"></i>
+                    Add vehicle
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
