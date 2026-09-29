@@ -294,25 +294,6 @@
     cursor: not-allowed;
 }
 
-.fc-form-section {
-    padding: 1.5rem;
-}
-
-.fc-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--fc-border);
-}
-
-.fc-form-error {
-    margin-top: 0.4rem;
-    color: #dc3545;
-    font-size: 0.875rem;
-}
-
-
 .fc-vehicle-thumb {
     width: 64px;
     height: 48px;
@@ -338,141 +319,25 @@
 }
 
 
-/* =========================================================
-   Vehicle Form
-   ========================================================= */
-
-.fc-form-section {
-    padding: 1.5rem;
+.fc-testimonial-action-active {
+    color: #198754;
 }
 
-.fc-form-group {
-    margin-bottom: 0;
+.fc-testimonial-action-active:hover {
+    color: #157347;
 }
 
-.fc-form-label {
-    display: block;
-    margin-bottom: 0.45rem;
-    color: var(--fc-text);
-    font-size: 0.78rem;
-    font-weight: 700;
+.fc-testimonial-action-inactive {
+    color: #6c757d;
 }
 
-.fc-form-control {
-    width: 100%;
-    min-height: 44px;
-    padding: 0.65rem 0.8rem;
-    border: 1px solid var(--fc-border);
-    border-radius: 0.6rem;
-    background: var(--fc-surface);
-    color: var(--fc-text);
-    font-size: 0.82rem;
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease,
-        background 0.15s ease;
+.fc-testimonial-action-inactive:hover {
+    color: #495057;
 }
 
-.fc-form-control::placeholder {
-    color: var(--fc-text-muted);
-}
-
-.fc-form-control:focus {
-    border-color: var(--fc-primary);
-    outline: none;
-    background: var(--fc-surface);
-    color: var(--fc-text);
-    box-shadow: 0 0 0 3px var(--fc-primary-soft);
-}
-
-textarea.fc-form-control {
-    min-height: 130px;
-    resize: vertical;
-}
-
-select.fc-form-control {
-    cursor: pointer;
-}
-
-.form-text {
-    margin-top: 0.4rem;
-    color: var(--fc-text-muted);
-    font-size: 0.7rem;
-}
-
-
-/* Form validation */
-
-.fc-form-error {
-    margin-top: 0.4rem;
-    color: #dc3545;
-    font-size: 0.75rem;
-}
-
-.fc-form-error span {
-    display: block;
-}
-
-
-/* Form-wide alert */
-
-.fc-form-alert {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-    padding: 0.9rem 1rem;
-    border: 1px solid;
-    border-radius: 0.6rem;
-    font-size: 0.8rem;
-}
-
-.fc-form-alert p {
-    margin: 0;
-}
-
-.fc-form-alert-danger {
-    border-color: rgba(220, 53, 69, 0.2);
-    background: rgba(220, 53, 69, 0.06);
-    color: #dc3545;
-}
-
-.fc-form-alert > i {
-    margin-top: 0.1rem;
-}
-
-
-/* Form action buttons */
-
-.fc-form-actions .fc-btn-primary,
-.fc-form-actions .fc-btn-secondary {
-    min-height: 42px;
-    padding: 0.65rem 1rem;
-}
-
-.fc-form-actions .fc-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-}
-
-
-/* Mobile */
-
-@media (max-width: 767.98px) {
-    .fc-form-section {
-        padding: 1.25rem;
-    }
-
-    .fc-form-actions {
-        flex-direction: column-reverse;
-    }
-
-    .fc-form-actions .fc-btn-primary,
-    .fc-form-actions .fc-btn-secondary {
-        width: 100%;
-    }
+.fc-testimonial-action-active,
+.fc-testimonial-action-inactive {
+    font-size: 1.3rem;
 }
 
 

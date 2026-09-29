@@ -1093,3 +1093,215 @@ p {
 .fc-login-notice i {
     color: var(--fc-primary);
 }
+
+.fc-messages {
+    position: fixed;
+    top: 5.5rem;
+    right: 1.25rem;
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    width: min(380px, calc(100vw - 2rem));
+}
+
+.fc-message {
+    position: relative;
+    pointer-events: auto;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+
+    padding: 0.85rem 2.5rem 0.85rem 1rem;
+
+    border: 1px solid;
+    border-radius: 0.65rem;
+    background: var(--fc-surface);
+    box-shadow: var(--fc-shadow-md);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.fc-message i {
+    margin-top: 0.05rem;
+    font-size: 1rem;
+}
+
+.fc-message-text {
+    flex: 1;
+}
+
+.fc-message-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+
+    width: 24px;
+    height: 24px;
+
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    color: inherit;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.fc-message-close:hover {
+    opacity: 1;
+}
+
+.fc-message-success {
+    color: #198754;
+    border-color: rgba(25, 135, 84, 0.25);
+    background: rgba(25, 135, 84, 0.35);
+}
+
+.fc-message-success i {
+    color: #198754;
+}
+
+.fc-message-error {
+    color: #dc3545;
+    border-color: rgba(220, 53, 69, 0.25);
+    background: rgba(220, 53, 69, 0.35);
+}
+
+.fc-message-error i {
+    color: #dc3545;
+}
+
+.fc-message-warning {
+    color: #997404;
+    border-color: rgba(255, 193, 7, 0.3);
+    background: rgba(255, 193, 7, 0.35);
+}
+
+.fc-message-warning i {
+    color: #997404;
+}
+
+.fc-message-info {
+    color: #0d6efd;
+    border-color: rgba(13, 110, 253, 0.25);
+    background: rgba(13, 110, 253, 0.35);
+}
+
+.fc-message-info i {
+    color: #0d6efd;
+}
+
+
+/* =========================================================
+   Contact Page
+   ========================================================= */
+
+.fc-contact-page {
+    padding: 5rem 0;
+}
+
+.fc-contact-header {
+    max-width: 680px;
+    margin-bottom: 3rem;
+}
+
+.fc-contact-header h1 {
+    margin: 0;
+    color: var(--fc-text);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.fc-contact-header p:last-child {
+    max-width: 600px;
+    margin: 1rem 0 0;
+    color: var(--fc-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+.fc-contact-card {
+    overflow: hidden;
+    background: var(--fc-surface);
+    border: 1px solid var(--fc-border);
+    border-radius: var(--fc-radius-md);
+    box-shadow: var(--fc-shadow-sm);
+}
+
+.fc-contact-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--fc-border);
+}
+
+.fc-contact-card-header h2 {
+    margin: 0;
+    color: var(--fc-text);
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.fc-contact-card-header p {
+    margin: 0.35rem 0 0;
+    color: var(--fc-text-muted);
+    font-size: 0.75rem;
+}
+
+.fc-contact-form {
+    padding: 1.5rem;
+}
+
+.fc-contact-form .form-label {
+    margin-bottom: 0.45rem;
+    color: var(--fc-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.fc-contact-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--fc-border);
+}
+
+.fc-contact-info {
+    padding: 1.5rem;
+}
+
+.fc-contact-info h2 {
+    margin: 0;
+    color: var(--fc-text);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.fc-contact-info p:last-child {
+    margin: 0.75rem 0 0;
+    color: var(--fc-text-muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+}
+
+@media (max-width: 767.98px) {
+    .fc-contact-page {
+        padding: 3rem 0;
+    }
+
+    .fc-contact-header {
+        margin-bottom: 2rem;
+    }
+
+    .fc-contact-form-actions {
+        justify-content: stretch;
+    }
+
+    .fc-contact-form-actions .fc-btn-primary {
+        width: 100%;
+    }
+}

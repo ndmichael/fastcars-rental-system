@@ -275,3 +275,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+document.querySelectorAll(".fc-message-close").forEach((button) => {
+    button.addEventListener("click", () => {
+        button.closest(".fc-message").remove();
+    });
+});

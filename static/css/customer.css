@@ -910,6 +910,41 @@ padding: 1rem;
     color: var(--fc-primary);
 }
 
+
+.fc-testimonial-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 0.6rem;
+    background: var(--fc-primary-soft);
+    color: var(--fc-primary);
+    font-size: 1rem;
+}
+
+.fc-dashboard-list-item {
+    align-items: flex-start;
+}
+
+.fc-dashboard-list-item + .fc-dashboard-list-item {
+    border-top: 1px solid var(--fc-border);
+}
+
+
+.fc-status-active {
+    color: #198754;
+    background: rgba(25, 135, 84, 0.1);
+    border-color: rgba(25, 135, 84, 0.2);
+}
+
+.fc-status-inactive {
+    color: #6c757d;
+    background: rgba(108, 117, 125, 0.1);
+    border-color: rgba(108, 117, 125, 0.2);
+}
+
 @media (max-width: 991.98px) {
     .fc-booking-vehicle-detail {
         grid-template-columns: 190px 1fr;
