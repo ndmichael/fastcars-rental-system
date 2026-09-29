@@ -1,0 +1,196 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Enquiries | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header mb-4">
+
+    <div>
+        <p class="fc-dashboard-section-label">Website Management</p>
+
+        <h1 class="fc-page-title">Enquiries</h1>
+
+        <p class="fc-page-description">
+            Review and manage enquiries submitted through the FAST CARS website.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Customer enquiries</h2>
+            <p>
+                Track incoming enquiries and update their status.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if enquiries %}
+
+        <div class="table-responsive">
+
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for enquiry in enquiries %}
+
+                        <tr>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ enquiry.name }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ enquiry.email }}
+                                </div>
+
+                                {% if enquiry.phone_number %}
+                                    <div class="fc-table-muted">
+                                        {{ enquiry.phone_number }}
+                                    </div>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ enquiry.subject }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ enquiry.message }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ enquiry.created_at|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-status fc-status-{{ enquiry.status }}">
+                                    {{ enquiry.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="fc-table-actions justify-content-end">
+
+                                    {% if enquiry.status == "new" %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'admin_portal:enquiry_update_status' enquiry.pk %}"
+                                        >
+                                            {% csrf_token %}
+
+                                            <input
+                                                type="hidden"
+                                                name="status"
+                                                value="read"
+                                            >
+
+                                            <button
+                                                type="submit"
+                                                class="fc-table-action"
+                                                title="Mark as read"
+                                                aria-label="Mark enquiry as read"
+                                            >
+                                                <i class="bi bi-envelope-open"></i>
+                                            </button>
+
+                                        </form>
+
+                                    {% elif enquiry.status == "read" %}
+
+                                        <form
+                                            method="post"
+                                            action="{% url 'admin_portal:enquiry_update_status' enquiry.pk %}"
+                                        >
+                                            {% csrf_token %}
+
+                                            <input
+                                                type="hidden"
+                                                name="status"
+                                                value="resolved"
+                                            >
+
+                                            <button
+                                                type="submit"
+                                                class="fc-table-action"
+                                                title="Mark as resolved"
+                                                aria-label="Mark enquiry as resolved"
+                                            >
+                                                <i class="bi bi-check-circle"></i>
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <span
+                                            class="fc-table-action fc-table-action-disabled"
+                                            title="Enquiry resolved"
+                                        >
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </span>
+
+                                    {% endif %}
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-envelope"></i>
+            </div>
+
+            <h3>No enquiries yet</h3>
+
+            <p>
+                Customer enquiries submitted through the website will appear here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
