@@ -1,7 +1,20 @@
 from django.shortcuts import render
 
-# Create your views here.
+from vehicles.models import Vehicle
 
 
 def home(request):
-    return render(request, "public/home.html")
+    vehicles = (
+        Vehicle.objects
+        .filter(status="available")
+        .select_related("brand")
+        .order_by("-created_at")[:3]
+    )
+
+    return render(
+        request,
+        "public/home.html",
+        {
+            "vehicles": vehicles,
+        },
+    )
