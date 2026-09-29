@@ -1,0 +1,117 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}Share Your Experience | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-page-header">
+
+    <div>
+        <p class="fc-dashboard-section-label">Testimonials</p>
+
+        <h3 class="fc-page-title">
+            Share Your Experience
+        </h3>
+
+        <p class="fc-page-description">
+            Tell us about your experience with FAST CARS.
+            Your testimonial will be reviewed before it is published.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'testimonials:my_testimonials' %}"
+        class="btn fc-btn-ghost"
+    >
+        <i class="bi bi-arrow-left"></i>
+        Back to testimonials
+    </a>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-xl-7 col-lg-9">
+
+        <div class="fc-dashboard-panel">
+
+            <div class="fc-dashboard-panel-header">
+
+                <div>
+                    <h2>Your testimonial</h2>
+                    <p>
+                        Share an honest experience with our service.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="fc-form-section">
+
+                    <div class="mb-4">
+
+                        <label
+                            for="{{ form.message.id_for_label }}"
+                            class="form-label"
+                        >
+                            Your experience
+                        </label>
+
+                        {{ form.message }}
+
+                        {% if form.message.errors %}
+                            <div class="fc-form-error">
+                                {{ form.message.errors|striptags }}
+                            </div>
+                        {% endif %}
+
+                        <div class="form-text">
+                            Share your experience with FAST CARS.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {% if form.non_field_errors %}
+                    <div class="fc-form-error">
+                        {{ form.non_field_errors|striptags }}
+                    </div>
+                {% endif %}
+
+
+                <div class="fc-form-actions">
+
+                    <a
+                        href="{% url 'testimonials:my_testimonials' %}"
+                        class="btn fc-btn-ghost"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn fc-btn-primary"
+                    >
+                        <i class="bi bi-send"></i>
+                        Submit testimonial
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Testimonials | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header mb-4">
+
+    <div>
+        <p class="fc-dashboard-section-label">Website Management</p>
+
+        <h1 class="fc-page-title">Testimonials</h1>
+
+        <p class="fc-page-description">
+            Review and manage customer testimonials before they are published.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Customer testimonials</h2>
+            <p>
+                Activate testimonials you want displayed publicly.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if testimonials %}
+
+        <div class="table-responsive">
+
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Testimonial</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for testimonial in testimonials %}
+
+                        <tr>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ testimonial.customer.username }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ testimonial.customer.email }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ testimonial.message }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ testimonial.created_at|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-status fc-status-{{ testimonial.status }}">
+                                    {{ testimonial.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="fc-table-actions justify-content-end">
+
+                                    <form
+                                        method="post"
+                                        action="{% url 'admin_portal:testimonial_toggle_status' testimonial.pk %}"
+                                    >
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="fc-table-action btn-lg {% if testimonial.status == 'active' %}fc-testimonial-action-active{% else %}fc-testimonial-action-inactive{% endif %}"
+                                            title="{% if testimonial.status == 'active' %}Deactivate testimonial{% else %}Activate testimonial{% endif %}"
+                                            aria-label="{% if testimonial.status == 'active' %}Deactivate testimonial{% else %}Activate testimonial{% endif %}"
+                                        >
+                                            {% if testimonial.status == "active" %}
+                                                <i class="bi bi-toggle-on"></i>
+                                            {% else %}
+                                                <i class="bi bi-toggle-off"></i>
+                                            {% endif %}
+                                        </button>
+
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-chat-quote"></i>
+            </div>
+
+            <h3>No testimonials yet</h3>
+
+            <p>
+                Customer testimonials will appear here once they are submitted.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

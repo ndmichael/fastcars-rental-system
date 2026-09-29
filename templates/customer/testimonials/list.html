@@ -1,0 +1,110 @@
+{% extends "layouts/customer.html" %}
+
+{% block title %}My Testimonials | FAST CARS{% endblock %}
+
+{% block customer_content %}
+
+<div class="fc-page-header mb-4">
+
+    <div>
+        <p class="fc-dashboard-section-label">Testimonials</p>
+
+        <h2 class="fc-page-title">My Testimonials</h2>
+
+        <p class="fc-page-description">
+            View the testimonials you have submitted to FAST CARS.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'testimonials:create' %}"
+        class="btn fc-btn-primary"
+    >
+        <i class="bi bi-plus-lg"></i>
+        Share your experience
+    </a>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Your testimonials</h2>
+            <p>
+                Submitted testimonials are reviewed before being published.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if testimonials %}
+
+        <div class="fc-dashboard-list">
+
+            {% for testimonial in testimonials %}
+
+                <div class="fc-dashboard-list-item">
+
+                    <div class="d-flex align-items-start gap-3 w-100">
+
+                        <div class="fc-testimonial-icon">
+                            <i class="bi bi-chat-quote-fill"></i>
+                        </div>
+
+                        <div class="flex-grow-1">
+
+                            <div class="fc-table-primary">
+                                {{ testimonial.message }}
+                            </div>
+
+                            <div class="fc-table-muted mt-2">
+                                Submitted {{ testimonial.created_at|date:"M d, Y" }}
+                            </div>
+
+                        </div>
+
+                        <span class="fc-status fc-status-{{ testimonial.status }} flex-shrink-0">
+                            {{ testimonial.get_status_display }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-chat-quote"></i>
+            </div>
+
+            <h3>No testimonials yet</h3>
+
+            <p>
+                Share your experience with FAST CARS after using our service.
+            </p>
+
+            <a
+                href="{% url 'testimonials:create' %}"
+                class="btn fc-btn-primary"
+            >
+                <i class="bi bi-plus-lg"></i>
+                Share your experience
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
