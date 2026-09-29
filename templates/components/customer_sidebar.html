@@ -46,6 +46,14 @@
                 <i class="bi bi-calendar-check"></i>
                 <span>My Bookings</span>
             </a>
+
+            <a
+                href="{% url 'testimonials:my_testimonials' %}"
+                class="{% if request.resolver_match.url_name == 'my_testimonials' or request.resolver_match.url_name == 'create' %}active{% endif %}"
+            >
+                <i class="bi bi-chat-quote"></i>
+                <span>Testimonials</span>
+            </a>
         </nav>
 
         <div class="fc-dashboard-sidebar-label">

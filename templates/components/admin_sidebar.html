@@ -56,22 +56,34 @@
                 <span>Vehicles</span>
             </a>
 
-            <a href="#">
+            <a
+                href="{% url 'admin_portal:booking_list' %}"
+                class="{% if request.resolver_match.url_name == 'booking_list' %}active{% endif %}"
+            >
                 <i class="bi bi-calendar-check"></i>
                 <span>Bookings</span>
             </a>
 
-            <a href="#">
-                <i class="bi bi-chat-square-quote"></i>
+            <a
+                href="{% url 'admin_portal:testimonial_list' %}"
+                class="{% if request.resolver_match.url_name == 'testimonial_list' %}active{% endif %}"
+            >
+                <i class="bi bi-chat-quote"></i>
                 <span>Testimonials</span>
             </a>
 
-            <a href="#">
+            <a
+                href="{% url 'admin_portal:enquiry_list' %}"
+                class="{% if request.resolver_match.url_name == 'enquiry_list' %}active{% endif %}"
+            >
                 <i class="bi bi-envelope"></i>
                 <span>Enquiries</span>
             </a>
 
-            <a href="#">
+            <a
+                href="{% url 'admin_portal:customer_list' %}"
+                class="{% if request.resolver_match.url_name == 'customer_list' %}active{% endif %}"
+            >
                 <i class="bi bi-people"></i>
                 <span>Customers</span>
             </a>

@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg fc-navbar">
     <div class="container">
+
         <a
             class="navbar-brand fc-brand"
             href="{% url 'pages:home' %}"
@@ -11,7 +12,11 @@
             FAST<span>CARS</span>
         </a>
 
+
+        <!-- Mobile controls -->
+
         <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+
             <button
                 class="btn fc-theme-toggle"
                 type="button"
@@ -32,10 +37,16 @@
             >
                 <i class="bi bi-list"></i>
             </button>
+
         </div>
 
+
+        <!-- Navigation -->
+
         <div class="collapse navbar-collapse" id="mainNavigation">
+
             <ul class="navbar-nav mx-auto mb-3 mb-lg-0">
+
                 <li class="nav-item">
                     <a
                         class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
@@ -44,6 +55,7 @@
                         Home
                     </a>
                 </li>
+
 
                 <li class="nav-item">
                     <a
@@ -54,20 +66,33 @@
                     </a>
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pages:home' %}#why-us">
+                    <a
+                        class="nav-link"
+                        href="{% url 'pages:home' %}#why-us"
+                    >
                         About
                     </a>
                 </li>
 
+
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pages:home' %}#contact">
+                    <a
+                        class="nav-link"
+                        href="{% url 'enquiries:create' %}"
+                    >
                         Contact
                     </a>
                 </li>
+
             </ul>
 
+
+            <!-- Desktop actions -->
+
             <div class="d-none d-lg-flex align-items-center gap-2">
+
                 <button
                     class="btn fc-theme-toggle"
                     type="button"
@@ -77,8 +102,11 @@
                     <i class="bi bi-moon-stars" data-theme-icon></i>
                 </button>
 
+
                 {% if request.user.is_authenticated %}
+
                     <div class="dropdown">
+
                         <button
                             class="btn fc-btn fc-btn-outline dropdown-toggle"
                             type="button"
@@ -86,10 +114,41 @@
                             aria-expanded="false"
                         >
                             <i class="bi bi-person-circle me-1"></i>
+
                             {{ request.user.get_short_name|default:request.user.username }}
+
                         </button>
 
+
                         <ul class="dropdown-menu dropdown-menu-end">
+
+                            {% if request.user.role == "admin" %}
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'admin_portal:dashboard' %}"
+                                    >
+                                        <i class="bi bi-speedometer2 me-2"></i>
+                                        Admin Dashboard
+                                    </a>
+                                </li>
+
+                            {% else %}
+
+                                <li>
+                                    <a
+                                        class="dropdown-item"
+                                        href="{% url 'accounts:dashboard' %}"
+                                    >
+                                        <i class="bi bi-speedometer2 me-2"></i>
+                                        My Dashboard
+                                    </a>
+                                </li>
+
+                            {% endif %}
+
+
                             <li>
                                 <a
                                     class="dropdown-item"
@@ -100,21 +159,11 @@
                                 </a>
                             </li>
 
-                            {% if request.user.is_staff %}
-                                <li>
-                                    <a
-                                        class="dropdown-item"
-                                        href="/admin/"
-                                    >
-                                        <i class="bi bi-speedometer2 me-2"></i>
-                                        Admin
-                                    </a>
-                                </li>
-                            {% endif %}
 
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+
 
                             <li>
                                 <button
@@ -127,9 +176,13 @@
                                     Logout
                                 </button>
                             </li>
+
                         </ul>
+
                     </div>
+
                 {% else %}
+
                     <a
                         href="{% url 'accounts:login' %}"
                         class="btn fc-btn fc-btn-outline"
@@ -137,17 +190,48 @@
                         Login
                     </a>
 
+
                     <a
                         href="{% url 'accounts:register' %}"
                         class="btn fc-btn fc-btn-primary"
                     >
                         Create Account
                     </a>
+
                 {% endif %}
+
             </div>
 
+
+            <!-- Mobile actions -->
+
             <div class="d-flex d-lg-none flex-column gap-2 pb-3">
+
                 {% if request.user.is_authenticated %}
+
+                    {% if request.user.role == "admin" %}
+
+                        <a
+                            href="{% url 'admin_portal:dashboard' %}"
+                            class="btn fc-btn fc-btn-outline"
+                        >
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Admin Dashboard
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'accounts:dashboard' %}"
+                            class="btn fc-btn fc-btn-outline"
+                        >
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            My Dashboard
+                        </a>
+
+                    {% endif %}
+
+
                     <a
                         href="{% url 'accounts:password_change' %}"
                         class="btn fc-btn fc-btn-outline"
@@ -156,15 +240,6 @@
                         Change Password
                     </a>
 
-                    {% if request.user.is_staff %}
-                        <a
-                            href="/admin/"
-                            class="btn fc-btn fc-btn-outline"
-                        >
-                            <i class="bi bi-speedometer2 me-2"></i>
-                            Admin
-                        </a>
-                    {% endif %}
 
                     <button
                         type="button"
@@ -175,7 +250,9 @@
                         <i class="bi bi-box-arrow-right me-2"></i>
                         Logout
                     </button>
+
                 {% else %}
+
                     <a
                         href="{% url 'accounts:login' %}"
                         class="btn fc-btn fc-btn-outline"
@@ -183,19 +260,28 @@
                         Login
                     </a>
 
+
                     <a
                         href="{% url 'accounts:register' %}"
                         class="btn fc-btn fc-btn-primary"
                     >
                         Create Account
                     </a>
+
                 {% endif %}
+
             </div>
+
         </div>
+
     </div>
 </nav>
 
+
+<!-- Logout confirmation modal -->
+
 {% if request.user.is_authenticated %}
+
 <div
     class="modal fade"
     id="logoutModal"
@@ -203,12 +289,20 @@
     aria-labelledby="logoutModalLabel"
     aria-hidden="true"
 >
+
     <div class="modal-dialog modal-dialog-centered modal-sm">
+
         <div class="modal-content fc-modal">
+
             <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">
+
+                <h5
+                    class="modal-title"
+                    id="logoutModalLabel"
+                >
                     Logout?
                 </h5>
+
 
                 <button
                     type="button"
@@ -216,15 +310,21 @@
                     data-bs-dismiss="modal"
                     aria-label="Close"
                 ></button>
+
             </div>
 
+
             <div class="modal-body">
+
                 <p class="mb-0 fc-text-muted">
                     Are you sure you want to log out of your FAST CARS account?
                 </p>
+
             </div>
 
+
             <div class="modal-footer">
+
                 <button
                     type="button"
                     class="btn fc-btn fc-btn-outline"
@@ -233,11 +333,13 @@
                     Cancel
                 </button>
 
+
                 <form
                     method="post"
                     action="{% url 'accounts:logout' %}"
                     class="m-0"
                 >
+
                     {% csrf_token %}
 
                     <button
@@ -246,9 +348,15 @@
                     >
                         Logout
                     </button>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
+
 {% endif %}

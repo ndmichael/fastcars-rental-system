@@ -1,0 +1,39 @@
+{% if messages %}
+
+    <div class="fc-messages" aria-live="polite">
+
+        {% for message in messages %}
+
+            <div class="fc-message fc-message-{{ message.tags }}" role="alert">
+
+                <i class="bi
+                    {% if message.tags == 'success' %}
+                        bi-check-circle
+                    {% elif message.tags == 'error' %}
+                        bi-exclamation-circle
+                    {% elif message.tags == 'warning' %}
+                        bi-exclamation-triangle
+                    {% else %}
+                        bi-info-circle
+                    {% endif %}
+                "></i>
+
+                <span class="fc-message-text">
+                    {{ message }}
+                </span>
+
+                <button
+                    type="button"
+                    class="fc-message-close"
+                    aria-label="Close notification"
+                >
+                    <i class="bi bi-x-lg"></i>
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endif %}
