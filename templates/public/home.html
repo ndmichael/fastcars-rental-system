@@ -24,12 +24,12 @@ Reliable car rental made simple. Browse vehicles, choose your dates, and submit 
                 </p>
 
                 <div class="d-flex flex-wrap gap-2">
-                    <a href="#cars" class="btn fc-btn fc-btn-primary px-4">
+                    <a href="{% url 'vehicles:list' %}" class="btn fc-btn fc-btn-primary px-4">
                         Browse Cars
                         <i class="bi bi-arrow-right ms-2"></i>
                     </a>
 
-                    <a href="#how-it-works" class="btn fc-btn fc-btn-outline px-4">
+                    <a href="{% url 'enquiries:create' %}" class="btn fc-btn fc-btn-outline px-4">
                         How It Works
                     </a>
                 </div>
@@ -110,84 +110,137 @@ Reliable car rental made simple. Browse vehicles, choose your dates, and submit 
 
 
 <section id="cars" class="fc-section fc-fleet-section">
+
     <div class="container">
+
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+
             <div>
-                <span class="fc-eyebrow">Our fleet</span>
-                <h2>Find the right ride.</h2>
+
+                <span class="fc-eyebrow">
+                    Our fleet
+                </span>
+
+                <h2>
+                    Find the right ride.
+                </h2>
+
                 <p class="fc-section-intro mb-0">
                     From everyday travel to executive journeys, explore the vehicles available through FAST CARS.
                 </p>
+
             </div>
 
-            <a href="#" class="fc-text-link">
+
+            <a
+                href="{% url 'vehicles:list' %}"
+                class="fc-text-link"
+            >
                 View all cars
                 <i class="bi bi-arrow-right"></i>
             </a>
+
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-6 col-xl-4">
-                <article class="fc-vehicle-preview">
-                    <div class="fc-vehicle-image">
-                        <img
-                            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=85"
-                            alt="Premium vehicle"
-                        >
+
+        {% if vehicles %}
+
+            <div class="row g-4">
+
+                {% for vehicle in vehicles %}
+
+                    <div class="col-md-6 col-xl-4">
+
+                        <article class="fc-vehicle-preview">
+
+                            <div class="fc-vehicle-image">
+
+                                <img
+                                    src="{{ vehicle.primary_image.url }}"
+                                    alt="{{ vehicle.brand.name }} {{ vehicle.model_name }}"
+                                >
+
+                            </div>
+
+
+                            <div class="fc-vehicle-preview-body">
+
+                                <span class="fc-vehicle-type">
+                                    {{ vehicle.get_category_display }}
+                                </span>
+
+
+                                <h3>
+                                    {{ vehicle.brand.name }}
+                                    {{ vehicle.model_name }}
+                                </h3>
+
+
+                                <p>
+                                    {% if vehicle.description %}
+                                        {{ vehicle.description|truncatewords:15 }}
+                                    {% else %}
+                                        A reliable choice for your next journey.
+                                    {% endif %}
+                                </p>
+
+
+                                <div class="d-flex justify-content-between align-items-center gap-3">
+
+                                    <span class="fc-vehicle-price">
+                                        ₦{{ vehicle.daily_rate|floatformat:2 }}/day
+                                    </span>
+
+
+                                    <a
+                                        href="{% url 'vehicles:detail' vehicle.pk %}"
+                                        class="fc-text-link"
+                                    >
+                                        View vehicle
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
                     </div>
-                    <div class="fc-vehicle-preview-body">
-                        <span class="fc-vehicle-type">Executive</span>
-                        <h3>Premium Drive</h3>
-                        <p>Comfort-focused vehicle for business and leisure travel.</p>
-                        <a href="#" class="fc-text-link">
-                            View vehicle
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
+
+                {% endfor %}
+
             </div>
 
-            <div class="col-md-6 col-xl-4">
-                <article class="fc-vehicle-preview">
-                    <div class="fc-vehicle-image">
-                        <img
-                            src="https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1000"
-                            alt="Modern car"
-                        >
-                    </div>
-                    <div class="fc-vehicle-preview-body">
-                        <span class="fc-vehicle-type">Sedan</span>
-                        <h3>Everyday Comfort</h3>
-                        <p>A practical choice for city trips and longer journeys.</p>
-                        <a href="#" class="fc-text-link">
-                            View vehicle
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
+        {% else %}
+
+            <div class="fc-dashboard-empty">
+
+                <div class="fc-dashboard-empty-icon">
+                    <i class="bi bi-car-front"></i>
+                </div>
+
+                <h3>
+                    No vehicles available
+                </h3>
+
+                <p>
+                    Our fleet is currently being updated. Please check back soon.
+                </p>
+
+                <a
+                    href="{% url 'vehicles:list' %}"
+                    class="btn fc-btn-primary"
+                >
+                    Browse cars
+                </a>
+
             </div>
 
-            <div class="col-md-6 col-xl-4">
-                <article class="fc-vehicle-preview">
-                    <div class="fc-vehicle-image">
-                        <img
-                            src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=85"
-                            alt="Luxury vehicle"
-                        >
-                    </div>
-                    <div class="fc-vehicle-preview-body">
-                        <span class="fc-vehicle-type">SUV</span>
-                        <h3>Room to Go</h3>
-                        <p>More space and flexibility for passengers and luggage.</p>
-                        <a href="#" class="fc-text-link">
-                            View vehicle
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </article>
-            </div>
-        </div>
+        {% endif %}
+
     </div>
+
 </section>
 
 
