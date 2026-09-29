@@ -1,0 +1,135 @@
+{% extends "layouts/admin.html" %}
+
+{% block title %}Customers | FAST CARS{% endblock %}
+
+{% block admin_content %}
+
+<div class="fc-page-header mb-4">
+
+    <div>
+        <p class="fc-dashboard-section-label">User Management</p>
+
+        <h1 class="fc-page-title">Customers</h1>
+
+        <p class="fc-page-description">
+            View registered customers and their account information.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="fc-dashboard-panel">
+
+    <div class="fc-dashboard-panel-header">
+
+        <div>
+            <h2>Registered customers</h2>
+
+            <p>
+                Customers who have registered on the FAST CARS platform.
+            </p>
+        </div>
+
+    </div>
+
+
+    {% if customers %}
+
+        <div class="table-responsive">
+
+            <table class="table fc-dashboard-table align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Registered</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for customer in customers %}
+
+                        <tr>
+
+                            <td>
+                                <div class="fc-table-primary">
+                                    {{ customer.username }}
+                                </div>
+
+                                <div class="fc-table-muted">
+                                    {{ customer.get_full_name|default:"No name provided" }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ customer.email }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ customer.phone_number|default:"Not provided" }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="fc-table-muted">
+                                    {{ customer.date_joined|date:"M d, Y" }}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                {% if customer.is_active %}
+
+                                    <span class="fc-status fc-status-active">
+                                        Active
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="fc-status fc-status-inactive">
+                                        Inactive
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="fc-dashboard-empty">
+
+            <div class="fc-dashboard-empty-icon">
+                <i class="bi bi-people"></i>
+            </div>
+
+            <h3>No customers yet</h3>
+
+            <p>
+                Registered customers will appear here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
