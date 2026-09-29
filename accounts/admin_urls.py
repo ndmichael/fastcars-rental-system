@@ -3,6 +3,10 @@ from django.urls import path
 from . import views
 from vehicles import admin_views as vehicle_admin_views
 from bookings import admin_views as booking_admin_views
+from testimonials import admin_views as testimonial_admin_views
+from enquiries import admin_views as enquiry_admin_views
+
+from accounts import admin_views as account_admin_views
 
 app_name = "admin_portal"
 
@@ -79,5 +83,34 @@ urlpatterns = [
         "bookings/<str:reference>/complete/",
         booking_admin_views.booking_complete,
         name="booking_complete",
+    ),
+
+    path(
+        "testimonials/",
+        testimonial_admin_views.testimonial_list,
+        name="testimonial_list",
+    ),
+
+    path(
+        "testimonials/<int:pk>/toggle-status/",
+        testimonial_admin_views.testimonial_toggle_status,
+        name="testimonial_toggle_status",
+    ),
+    path(
+        "enquiries/",
+        enquiry_admin_views.enquiry_list,
+        name="enquiry_list",
+    ),
+
+    path(
+        "enquiries/<int:pk>/status/",
+        enquiry_admin_views.enquiry_update_status,
+        name="enquiry_update_status",
+    ),
+
+    path(
+        "customers/",
+        account_admin_views.customer_list,
+        name="customer_list",
     ),
 ]

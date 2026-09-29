@@ -11,7 +11,14 @@ urlpatterns = [
     path("bookings/", include("bookings.urls")),
     path("accounts/", include("accounts.urls")),
     path("admin-panel/", include("accounts.admin_urls")),
-
+    path(
+        "testimonials/",
+        include("testimonials.urls"),
+    ),
+    path(
+        "contact/",
+        include("enquiries.urls"),
+    ),
     
 ]
 

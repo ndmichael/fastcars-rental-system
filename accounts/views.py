@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -22,10 +22,36 @@ from bookings.models import Booking
 from vehicles.models import Vehicle
 
 
+from django.contrib import messages
+from django.urls import reverse
+
+
 class CustomLoginView(LoginView):
     template_name = "accounts/login.html"
     authentication_form = LoginForm
     redirect_authenticated_user = True
+
+    def get_success_url(self):
+        """
+        Redirect users to the correct portal after login.
+        """
+        if self.request.user.role == "admin":
+            return reverse("admin_portal:dashboard")
+
+        return reverse("accounts:dashboard")
+
+def logout_view(request):
+    """
+    Log the user out and return them to the login page.
+    """
+    logout(request)
+
+    messages.success(
+        request,
+        "You have been logged out successfully.",
+    )
+
+    return redirect("accounts:login")
 
 
 def register_view(request):
@@ -58,7 +84,8 @@ def register_view(request):
             ):
                 return redirect(next_url)
 
-            return redirect("pages:home")
+            return redirect("accounts:dashboard")
+
     else:
         form = RegisterForm()
 
@@ -70,7 +97,6 @@ def register_view(request):
             "next": next_url or "",
         },
     )
-
 
 
 @login_required
